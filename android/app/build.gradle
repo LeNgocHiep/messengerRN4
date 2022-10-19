@@ -288,6 +288,7 @@ dependencies {
         implementation jscFlavor
     }
     implementation project(path: ":@react-native-firebase_database")
+    implementation project(':react-native-vector-icons')
 }
 
 if (isNewArchitectureEnabled()) {
