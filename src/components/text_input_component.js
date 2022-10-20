@@ -37,7 +37,7 @@ export default TextInputComponent;
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
     borderRadius: 5,
     height: 50,
     marginBottom: 10,
