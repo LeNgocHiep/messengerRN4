@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Ionicons";
+import {Colors} from "../utils/colors";
 
 const PasswordInputComponent = ({ updateFields }) => {
   const [isFocus, setFocus] = useState(false);
@@ -14,7 +15,7 @@ const PasswordInputComponent = ({ updateFields }) => {
   const [isShow, setShow] = useState(false);
 
   const getColor = (isFocus) => {
-    return isFocus ? "#4666ff" : "#888888";
+    return isFocus ? Colors.backgroundDark : Colors.hintText;
   };
 
   return (
@@ -45,7 +46,7 @@ const PasswordInputComponent = ({ updateFields }) => {
           { fontSize: 17, color: getColor(isFocus) },
         ]}
         placeholder={"Password"}
-        placeholderTextColor={"#888888"}
+        placeholderTextColor={Colors.hintText}
         onChangeText={(text) => {
           setPass(text);
           updateFields(text);
@@ -95,18 +96,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#585858",
+    color: Colors.hintText,
   },
   textInputFocus: {
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#4666ff",
+    color: Colors.backgroundDark,
   },
   textInputError: {
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#FD6B6B",
+    color: Colors.red,
   },
 });

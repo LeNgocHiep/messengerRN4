@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/dist/Ionicons";
+import {Colors} from "../utils/colors";
 
 const EmailInputComponent = ({ updateFields }) => {
   const [isFocus, setFocus] = useState(0);
@@ -22,7 +23,7 @@ const EmailInputComponent = ({ updateFields }) => {
   };
 
   const getColor = (isFocus) => {
-    return isFocus == 1 ? "#4666ff" : isFocus == -1 ? "#FD6B6B" : "#888888";
+    return isFocus == 1 ? Colors.backgroundDark : isFocus == -1 ? Colors.red : Colors.hintText;
   };
 
   return (
@@ -53,7 +54,7 @@ const EmailInputComponent = ({ updateFields }) => {
           { fontSize: 17, color: getColor(isFocus) },
         ]}
         placeholder={"example@email.com"}
-        placeholderTextColor={"#888888"}
+        placeholderTextColor={Colors.hintText}
         onChangeText={(text) => {
           validate(text);
         }}
@@ -65,7 +66,7 @@ const EmailInputComponent = ({ updateFields }) => {
           // style={{ flexDirection: "row" }}
           name={isFocus == 1 && email.length > 0 ? "checkmark-outline" : "none"}
           size={20}
-          color="#4666ff"
+          color={Colors.backgroundColor}
         />
       ) : null}
     </View>
@@ -97,18 +98,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#585858",
+    color: Colors.hintText,
   },
   textInputFocus: {
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#4666ff",
+    color: Colors.backgroundColor,
   },
   textInputError: {
     paddingHorizontal: 10,
     width: "85%",
     paddingVertical: 0,
-    color: "#FD6B6B",
+    color: Colors.red,
   },
 });
