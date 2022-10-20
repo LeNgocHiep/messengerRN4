@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import { View, Text } from "react-native";
 import configStore from "./src/store/config_store";
 import LoginScreen from "./src/screen/login_screen";
+import SignInScreen from "./src/screen/sign_in_screen";
 
 const store = configStore();
 
@@ -45,6 +46,7 @@ const RootComponent = function () {
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Home" component={LoginScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

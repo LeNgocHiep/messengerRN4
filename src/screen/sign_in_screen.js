@@ -2,13 +2,14 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import EmailInputComponent from "../components/email_input_component";
 import PasswordInputComponent from "../components/password_input_component";
-import SvgWaveComponent from "../components/shape_wave_component";
 import ButtonComponent from "../components/button_component";
 import LineTextComponent from "../components/line_text_component";
 import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
+import NameInputComponent from "../components/name_input_component";
+import SvgWaveComponentReg from "../components/shape_wave_component_reg";
 
-const LoginScreen = ({ navigation }) => {
+const SignInScreen = ({navigation}) => {
   var height = Dimensions.get("window").height;
   var width = Dimensions.get("window").width;
   return (
@@ -20,12 +21,12 @@ const LoginScreen = ({ navigation }) => {
           backgroundColor: Colors.backgroundLight,
         }}
       >
-        <SvgWaveComponent
-          title={"Welcome\nBack"}
+        <SvgWaveComponentReg
+          title={"Create\nAccount"}
           width={width}
           height={height * 0.5}
           backgroundColor={Colors.backgroundDark}
-        ></SvgWaveComponent>
+        ></SvgWaveComponentReg>
         <View
           style={{
             width: "100%",
@@ -34,14 +35,10 @@ const LoginScreen = ({ navigation }) => {
             paddingTop: 20,
           }}
         >
+          <NameInputComponent updateFields={(text) => {}} />
           <EmailInputComponent updateFields={(text) => {}} />
           <PasswordInputComponent updateFields={(text) => {}} />
           {/* <Text style={{left:true}}>{"Forgot password?"}</Text> */}
-          <View style={{ width: width * 0.85 }}>
-            <Text style={{ textAlign: "right", color: Colors.backgroundDark }}>
-              {"Forgot password?"}
-            </Text>
-          </View>
           <ButtonComponent
             style={{
               marginTop: 30,
@@ -53,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
               alignItems: "center",
               color: Colors.backgroundLight,
             }}
-            text="Log in"
+            text="Sign up"
             onPress={() => {}}
           />
           <LineTextComponent
@@ -73,9 +70,9 @@ const LoginScreen = ({ navigation }) => {
               borderWidth: 1,
               borderColor: Colors.backgroundDark,
             }}
-            text="Sign in"
+            text="Log in"
             onPress={() => {
-              navigation.navigate("SignIn");
+                navigation.pop();
             }}
           />
         </View>
@@ -83,4 +80,4 @@ const LoginScreen = ({ navigation }) => {
     </KeyboardAwareScrollView>
   );
 };
-export default LoginScreen;
+export default SignInScreen;
