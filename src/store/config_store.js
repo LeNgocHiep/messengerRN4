@@ -1,14 +1,10 @@
-import { createStore, combineReducers } from "redux";
-import { applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import LoginReducer from "../reducers/login_reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import loginProducer from "../reducers/login_reducer";
 
-const rootReducer = combineReducers({
-  // loginReducer: LoginReducer(),
+const store = configureStore({
+  reducer: {
+    login: loginProducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(thunk),
 });
-
-const configStore = () => {
-  return createStore(rootReducer, applyMiddleware(thunk));
-};
-
-export default configStore;
+export default store;

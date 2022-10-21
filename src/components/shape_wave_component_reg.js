@@ -6,6 +6,12 @@ import { Colors } from "../utils/colors";
 const SvgWaveComponentReg = ({ width, height, backgroundColor, title }) => {
   return (
     <Svg height={height} width={width} viewBox="0 0 100 100">
+      {/* <Icon
+        // style={{ flexDirection: "row" }}
+        name={"chevron-back-outline"}
+        size={20}
+        color={Colors.backgroundLight}
+      /> */}
       <Text
         style={{
           color: Colors.backgroundLight,

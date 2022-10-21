@@ -1,9 +1,9 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+// /**
+//  * Metro configuration for React Native
+//  * https://github.com/facebook/react-native
+//  *
+//  * @format
+//  */
 
 module.exports = {
   transformer: {
@@ -15,3 +15,17 @@ module.exports = {
     }),
   },
 };
+// module.exports = {
+//   transformer: {
+//     getTransformOptions: async () => ({
+//       transform: {
+//         experimentalImportSupport: false,
+//         inlineRequires: true,
+//       },
+//     }),
+//   },
+//   //added this
+//   resolver: {
+//     sourceExts: ['jsx', 'js', 'ts', 'tsx', 'cjs'],
+//   },
+// };
