@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useInsertionEffect, useState, useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import EmailInputComponent from "../components/email_input_component";
 import PasswordInputComponent from "../components/password_input_component";
@@ -8,7 +8,8 @@ import LineTextComponent from "../components/line_text_component";
 import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { login } from "../actions/login_action";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { log } from "react-native-reanimated";
 
 const LoginScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -16,6 +17,12 @@ const LoginScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const loginInfo = useSelector((state) => state.loginProducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(loginInfo);
+  });
 
   return (
     <KeyboardAwareScrollView>
@@ -69,10 +76,13 @@ const LoginScreen = ({ navigation }) => {
             }}
             text="Log in"
             onPress={() => {
+              dispatch(login(email, password));
+            }
               // console.log("LOgin");
               // login.login(email, password);
-            f
-            }}
+              // this.props.login(email, password);
+              // dispatch{login(email, password)};
+            }
           />
           <LineTextComponent
             text="or"
@@ -110,21 +120,24 @@ const LoginScreen = ({ navigation }) => {
 //   };
 // };
 
-const mapStateToProps = (state) => ({
-  isLogged: state.isLogged,
-  hasError: state.hasError,
-  isLoading: state.isLoading,
-});
-
-// const mapDispatchToProps = (dispatch) => {
+// const mapStateToProps = (state) => {
+//   console.log(state.login.isLogged);
 //   return {
-//     login: (username, password) =>
-//       dispatch(login(username, password)),
+//     isLogged: state.login.isLogged,
+//     hasError: state.login.hasError,
+//     isLoading: state.login.isLoading,
 //   };
 // };
-// const mapDispatchToProps = {
-//   login,
-// };
 
-export default connect(mapStateToProps)(LoginScreen);
-// export default LoginScreen;
+// const mapDispatchToProps = (dispatch) =>{
+//   return {
+//     login: (username, password) =>
+//       dispatch(loginAction.login(username, password)),
+//   };
+// };
+// // const mapDispatchToProps = {
+// //   login,
+// // };
+
+// export default connect(mapStateToProps,mapDispatchToProps)(LoginScreen);
+export default LoginScreen;

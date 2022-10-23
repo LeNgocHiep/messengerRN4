@@ -1,4 +1,4 @@
-import {initializeApp} from 'firebase/app';
+import Firebase from 'firebase';
 const firebaseConfig = {
     apiKey: "AIzaSyApB6rh9PByKb4RavegCOt0prc8ZbpCyiw",
     databaseUrl:"https://messengerrn-80d51-default-rtdb.asia-southeast1.firebasedatabase.app/",
@@ -7,4 +7,4 @@ const firebaseConfig = {
     // appId:"1:446155438040:android:a1acdcfb905c80cef9a4ad" //android
 };
 
-export default initializeApp(firebaseConfig);
+export default Firebase.initializeApp(firebaseConfig);
