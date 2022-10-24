@@ -10,6 +10,7 @@ import NameInputComponent from "../components/name_input_component";
 import SvgWaveComponentReg from "../components/shape_wave_component_reg";
 import { signUp } from "../actions/sign_up_action";
 import { useDispatch, useSelector } from "react-redux";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SignUpScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -23,6 +24,11 @@ const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   return (
     <KeyboardAwareScrollView>
+      <Spinner
+        visible={signUpInfo.isLoading}
+        textContent={"Loading..."}
+        // textStyle={styles.spinnerTextStyle}
+      />
       <View
         style={{
           width: width,

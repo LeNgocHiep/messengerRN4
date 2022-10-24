@@ -1,9 +1,12 @@
 import * as ActionTypes from "../utils/action_type";
 // import { Actions } from "react-native-router-flux";
-import  SignUpUser from "../firebase/firebase_sign_up";
+import SignUpUser from "../firebase/firebase_sign_up";
 import Firebase from "../firebase/firebase_config";
-import  AddUser  from "../firebase/firebase_user";
-import EncryptedStorage from 'react-native-encrypted-storage';
+import AddUser from "../firebase/firebase_user";
+import EncryptedStorage from "react-native-encrypted-storage";
+import { Alert } from "react-native";
+
+export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export const signUpSuccess = (bool) => {
   return {
@@ -26,6 +29,8 @@ export const signUpIsLoading = (bool) => {
   };
 };
 
+const showAlert = () => Alert.alert("Sign up","Success!");
+
 export const signUp =
   (username, email, password, navigation) => async (dispatch) => {
     console.log("user", username);
@@ -44,9 +49,11 @@ export const signUp =
         const uid = Firebase.auth().currentUser.uid;
         AddUser(username, email, "", uid)
           .then(async () => {
-            await EncryptedStorage.setItem('UID', uid);
+            await EncryptedStorage.setItem("UID", uid);
             dispatch(signUpIsLoading(false));
-            navigation.goBack();
+            showAlert();
+            // await delay(500);
+            // navigation.goBack();
           })
           .catch((error) => {
             console.log(error);
@@ -61,7 +68,7 @@ export const signUp =
   };
 
 export const logout = () => {
-  EncryptedStorage.removeItem('UID');
+  EncryptedStorage.removeItem("UID");
   // Actions.Login();
   return {
     type: ActionTypes.LOGOUT,
