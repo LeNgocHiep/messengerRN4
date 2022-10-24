@@ -101,9 +101,9 @@ const LoginScreen = ({ navigation }) => {
               borderWidth: 1,
               borderColor: Colors.backgroundDark,
             }}
-            text="Sign in"
+            text="Sign up"
             onPress={() => {
-              navigation.navigate("SignIn");
+              navigation.navigate("SignUp");
             }}
           />
         </View>

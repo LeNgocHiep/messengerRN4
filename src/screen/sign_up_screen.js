@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import EmailInputComponent from "../components/email_input_component";
 import PasswordInputComponent from "../components/password_input_component";
@@ -8,10 +8,19 @@ import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import NameInputComponent from "../components/name_input_component";
 import SvgWaveComponentReg from "../components/shape_wave_component_reg";
+import { signUp } from "../actions/sign_up_action";
+import { useDispatch, useSelector } from "react-redux";
 
-const SignInScreen = ({navigation}) => {
+const SignUpScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
   var width = Dimensions.get("window").width;
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signUpInfo = useSelector((state) => state.signUpReducer);
+  const dispatch = useDispatch();
   return (
     <KeyboardAwareScrollView>
       <View
@@ -35,9 +44,21 @@ const SignInScreen = ({navigation}) => {
             paddingTop: 20,
           }}
         >
-          <NameInputComponent updateFields={(text) => {}} />
-          <EmailInputComponent updateFields={(text) => {}} />
-          <PasswordInputComponent updateFields={(text) => {}} />
+          <NameInputComponent
+            updateFields={(text) => {
+              setName(text);
+            }}
+          />
+          <EmailInputComponent
+            updateFields={(text) => {
+              setEmail(text);
+            }}
+          />
+          <PasswordInputComponent
+            updateFields={(text) => {
+              setPassword(text);
+            }}
+          />
           {/* <Text style={{left:true}}>{"Forgot password?"}</Text> */}
           <ButtonComponent
             style={{
@@ -51,7 +72,9 @@ const SignInScreen = ({navigation}) => {
               color: Colors.backgroundLight,
             }}
             text="Sign up"
-            onPress={() => {}}
+            onPress={() => {
+              dispatch(signUp(name, email, password, navigation));
+            }}
           />
           <LineTextComponent
             text="or"
@@ -72,7 +95,7 @@ const SignInScreen = ({navigation}) => {
             }}
             text="Log in"
             onPress={() => {
-                navigation.pop();
+              navigation.pop();
             }}
           />
         </View>
@@ -80,4 +103,4 @@ const SignInScreen = ({navigation}) => {
     </KeyboardAwareScrollView>
   );
 };
-export default SignInScreen;
+export default SignUpScreen;

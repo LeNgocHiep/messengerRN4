@@ -1,10 +1,12 @@
-import Firebase from 'firebase';
+import Firebase from "firebase";
 const firebaseConfig = {
-    apiKey: "AIzaSyApB6rh9PByKb4RavegCOt0prc8ZbpCyiw",
-    databaseUrl:"https://messengerrn-80d51-default-rtdb.asia-southeast1.firebasedatabase.app/",
-    projectId:"messengerrn-80d51",
-    appId:"1:446155438040:ios:c3b8fbb6b5f003bef9a4ad" //ios
-    // appId:"1:446155438040:android:a1acdcfb905c80cef9a4ad" //android
+  apiKey: "AIzaSyBey09d-c-euv1nFBnVesY2AFKfbdDZSNI",
+  //https://messengerrn-80d51-default-rtdb.asia-east1.firebasedatabase.app
+  databaseURL:
+    "https://reactchat-c593a-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "reactchat-c593a",
+  appId: "1:870070164651:ios:9ba71a8490f3471fd0ebee", //ios
+  // appId:"1:446155438040:android:a1acdcfb905c80cef9a4ad" //android
 };
 
 export default Firebase.initializeApp(firebaseConfig);

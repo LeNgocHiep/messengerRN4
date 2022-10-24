@@ -2,7 +2,10 @@
  * @format
  */
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator,HeaderBackButton } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  HeaderBackButton,
+} from "@react-navigation/native-stack";
 import { AppRegistry } from "react-native";
 import App from "./src/App";
 import { name as appName } from "./app.json";
@@ -11,7 +14,7 @@ import { Provider } from "react-redux";
 import { View, Text } from "react-native";
 import configStore from "./src/store/config_store";
 import LoginScreen from "./src/screen/login_screen";
-import SignInScreen from "./src/screen/sign_in_screen";
+import SignUpScreen from "./src/screen/sign_up_screen";
 
 const store = configStore();
 
@@ -43,14 +46,10 @@ const RootComponent = function () {
       </Stack.Navigator> */}
         <Stack.Navigator
           initialRouteName="Home"
-          screenOptions={{ headerShown: true, headerTransparent: true}}
+          screenOptions={{ headerShown: true, headerTransparent: true }}
         >
           <Stack.Screen name="Home" component={LoginScreen} />
-          <Stack.Screen
-            name="SignIn"
-            component={SignInScreen}
-            
-          />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

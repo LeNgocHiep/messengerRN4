@@ -1,8 +1,7 @@
 import * as ActionTypes from "../utils/action_type";
-// import { Actions } from "react-native-router-flux";
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
 import { LoginUser } from "../firebase/firebase_login_user";
 import Firebase from "../firebase/firebase_config";
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const isLogged = (bool) => {
   return {
@@ -65,7 +64,7 @@ export const login = (username, password) => async (dispatch) => {
   LoginUser(username, password)
     .then(async (res) => {
       const uid = Firebase.auth().currentUser.uid;
-      await AsyncStorage.setItem("UID", uid);
+      await EncryptedStorage.setItem("UID", uid);
       dispatch(loginIsLoading(false));
       Actions.Main();
     })
