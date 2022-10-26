@@ -1,7 +1,8 @@
 import * as ActionTypes from "../utils/action_type";
 import { LoginUser } from "../firebase/firebase_login_user";
 import Firebase from "../firebase/firebase_config";
-import EncryptedStorage from 'react-native-encrypted-storage';
+import EncryptedStorage from "react-native-encrypted-storage";
+import {getAllUser} from "../database/user_schema";
 
 const isLogged = (bool) => {
   return {
@@ -25,6 +26,9 @@ const loginIsLoading = (bool) => {
 };
 
 export const login = (username, password) => async (dispatch) => {
+  const users = getAllUser();
+  console.log(users);
+
   console.log("user", username);
   console.log("pass", password);
   dispatch(loginIsLoading(true));

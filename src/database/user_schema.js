@@ -13,15 +13,15 @@ export const UserSchema = {
     createAt: "date",
   },
 };
-export const getUserById = (userId) => realm.objectForPrimaryKey(USER, userId);
+export const getUserById = (userId) =>realm => realm.objectForPrimaryKey(USER, userId);
 
 export const insertUser = (user) => {
-  realm.write(() => realm.create(USER, user));
+  return realm => realm.write(() => realm.create(USER, user));
 };
 
 export const updateUser = (userId, newUser) => {
   const user = getUserById(userId);
-  realm.write(() => {
+  realm => realm.write(() => {
     if (newUser.name != null) user.name = newUser.name;
     if (newUser.email != null) user.email = newUser.email;
     if (newUser.avatar != null) user.avatar = newUser.avatar;
@@ -30,7 +30,7 @@ export const updateUser = (userId, newUser) => {
 };
 export const deleteUser = (userId) => {
   const user = getUserById(userId);
-  realm.write(() => {
+  realm => realm.write(() => {
     // Delete the task from the realm.
     realm.delete(user);
     // Discard the reference.
@@ -38,6 +38,6 @@ export const deleteUser = (userId) => {
   });
 };
 
-export const getListUser = () => {
-  return realm.objects(USER);
+export const getAllUser = () => {
+  return realm => realm.write(() =>realm.objects(USER));
 };

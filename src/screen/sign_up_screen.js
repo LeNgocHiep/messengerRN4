@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import EmailInputComponent from "../components/email_input_component";
 import PasswordInputComponent from "../components/password_input_component";
@@ -11,6 +11,7 @@ import SvgWaveComponentReg from "../components/shape_wave_component_reg";
 import { signUp } from "../actions/sign_up_action";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
+import { getAllUser } from "../database/user_schema";
 
 const SignUpScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -22,6 +23,7 @@ const SignUpScreen = ({ navigation }) => {
 
   const signUpInfo = useSelector((state) => state.signUpReducer);
   const dispatch = useDispatch();
+
   return (
     <KeyboardAwareScrollView>
       <Spinner

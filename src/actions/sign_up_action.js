@@ -48,13 +48,14 @@ export const signUp =
     SignUpUser(email, password)
       .then(async (res) => {
         const uid = Firebase.auth().currentUser.uid;
-        insertUser({
+        const user = {
           userId: uid,
           name: username,
           email: email,
-          avatar: image,
+          avatar: '',
           createAt: Date.now(),
-        });
+        };
+        insertUser(user);
         AddUser(username, email, "", uid)
           .then(async () => {
             await EncryptedStorage.setItem("UID", uid);

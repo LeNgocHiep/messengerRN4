@@ -21,16 +21,16 @@ export const MessageSchema = {
   },
 };
 
-export const getMessageById = (messageId) =>
+export const getMessageById = (messageId) =>realm =>
   realm.objectForPrimaryKey(MESSAGE, messageId);
 
 export const insertMessage = (message) => {
-  return realm.write(() => realm.create(MESSAGE, message));
+  return realm => realm.write(() => realm.create(MESSAGE, message));
 };
 
 export const updateMessage = (messageId, newMessage) => {
   const message = getMessageById(messageId);
-  return realm.write(() => {
+  return realm => realm.write(() => {
     if (newMessage.content != null) message.content = newMessage.content;
     if (newMessage.type != null) message.type = newMessage.type;
     if (newMessage.image != null) message.image = newMessage.image;
@@ -41,10 +41,10 @@ export const updateMessage = (messageId, newMessage) => {
 
 export const deleteMessage = (messageId) => {
   const message = getMessageById(messageId);
-  return realm.write(() => {
+  return realm => realm.write(() => {
     realm.delete(message);
     message = null;
   });
 };
 
-export const getAllMessage = () => realm.objects(MESSAGE);
+export const getAllMessage = () => realm => realm.objects(MESSAGE);

@@ -18,32 +18,35 @@ export const ConversationSchema = {
 };
 
 export const getConversationById = (conversationId) => {
-  return realm.objectForPrimaryKey(CONVERSATION, conversationId);
+  return (realm) => realm.objectForPrimaryKey(CONVERSATION, conversationId);
 };
 
 export const insertConversation = (conversation) => {
-  return realm.write(() => realm.create(CONVERSATION, conversation));
+  return (realm) => realm.write(() => realm.create(CONVERSATION, conversation));
 };
 
 export const updateConversation = (conversationId, newConversation) => {
   const conversation = getConversationById(conversationId);
-  return realm.write(() => {
-    if (newConversation.name != null) conversation.name = newConversation.name;
-    if (newConversation.avatar != null)
-      conversation.avatar = newConversation.avatar;
-    if (newConversation.createAt != null)
-      conversation.createAt = newConversation.createAt;
-    if (newConversation.users != null && newConversation.users.length > 0)
-      conversation.users = newConversation.users;
-  });
+  return (realm) =>
+    realm.write(() => {
+      if (newConversation.name != null)
+        conversation.name = newConversation.name;
+      if (newConversation.avatar != null)
+        conversation.avatar = newConversation.avatar;
+      if (newConversation.createAt != null)
+        conversation.createAt = newConversation.createAt;
+      if (newConversation.users != null)
+        conversation.users = newConversation.users;
+    });
 };
 
 export const deleteConversation = (conversationId) => {
   const conversation = getConversationById(conversationId);
-  realm.write(() => {
-    realm.delete(conversation);
-    conversation = null;
-  });
+  (realm) =>
+    realm.write(() => {
+      realm.delete(conversation);
+      conversation = null;
+    });
 };
 
-export const getAllConversation = () => realm.objects(CONVERSATION);
+export const getAllConversation = () => (realm) => realm.objects(CONVERSATION);
