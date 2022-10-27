@@ -1,11 +1,11 @@
 import Realm from "realm";
-import { USER, UserSchema } from "./user_schema";
-import { CONVERSATION, ConversationSchema } from "./conversation_schema";
-import { MESSAGE, MessageSchema } from "./message_schema";
+import { User } from "./user_schema";
 
-export const realm = () => Realm.open({
-    path: "realmDatabase",
-    schema: [UserSchema,ConversationSchema,MessageSchema],
-  });
+const databaseConfig = {
+  path: "myrealm",
+  schema: [User.schema],
+}
 
-
+export const getRealm = async () => {
+  return await Realm.open(databaseConfig);
+};

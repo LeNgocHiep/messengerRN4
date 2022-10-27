@@ -15,43 +15,33 @@ import { View, Text } from "react-native";
 import configStore from "./src/store/config_store";
 import LoginScreen from "./src/screen/login_screen";
 import SignUpScreen from "./src/screen/sign_up_screen";
+// import { RealmProvider } from "./src/database/database_manager";
 
 const store = configStore();
 
 const Stack = createNativeStackNavigator();
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Details Screen</Text>
-    </View>
-  );
-}
-
 const RootComponent = function () {
+  // if (!RealmProvider) {
+  //   return null;
+  // }
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        {/* <Stack.Navigator initialRouteName="Detail">
+      {/* <RealmProvider> */}
+        <NavigationContainer>
+          {/* <Stack.Navigator initialRouteName="Detail">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Detail" component={DetailsScreen} />
       </Stack.Navigator> */}
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{ headerShown: true, headerTransparent: true }}
-        >
-          <Stack.Screen name="Home" component={LoginScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions={{ headerShown: true, headerTransparent: true }}
+          >
+            <Stack.Screen name="Home" component={LoginScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      {/* </RealmProvider> */}
     </Provider>
   );
 };

@@ -5,7 +5,7 @@ import Firebase from "../firebase/firebase_config";
 import AddUser from "../firebase/firebase_user";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { Alert } from "react-native";
-import { insertUser } from "../database/user_schema";
+import { insertUser, User } from "../database/user_schema";
 
 export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -48,14 +48,14 @@ export const signUp =
     SignUpUser(email, password)
       .then(async (res) => {
         const uid = Firebase.auth().currentUser.uid;
-        const user = {
+        const user = new User({
           userId: uid,
           name: username,
           email: email,
-          avatar: '',
+          avatar: "",
           createAt: Date.now(),
-        };
-        insertUser(user);
+        });
+        const userResult = await insertUser(user);
         AddUser(username, email, "", uid)
           .then(async () => {
             await EncryptedStorage.setItem("UID", uid);

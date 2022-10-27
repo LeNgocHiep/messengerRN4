@@ -40,7 +40,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '11.0'
+platform :ios, '15.0'
 
 target 'messengerRN4' do
   use_modular_headers!
@@ -53,6 +53,11 @@ target 'messengerRN4' do
     # to enable hermes on iOS, change false to true and then install pods
     :hermes_enabled => false
   )
+
+  # pod 'FBLazyVector', :path => "../node_modules/react-native/React/FBLazyVector"
+  # pod 'FBReactNativeSpec', :path => "../node_modules/react-native/React/FBReactNativeSpec"
+  # pod 'RCTRequired', :path => "../node_modules/react-native/React/RCTRequired"
+  # pod 'RCTTypeSafety', :path => "../node_modules/react-native/React/TypeSafety"
 
   target 'messengerRN4Tests' do
     inherit! :complete
@@ -67,13 +72,13 @@ target 'messengerRN4' do
 
   post_install do |installer|
     # flipper_post_install(installer)
-#    installer.pods_project.targets.each do |target|
-#      if target.name == 'RCT-Folly'
-#        target.build_configurations.each do |config|
-#          config.build_settings['HEADER_SEARCH_PATHS'] = "$(inherited) ${PODS_ROOT}/fmt/include"
-#        end
-#      end
-#    end
+  #  installer.pods_project.targets.each do |target|
+  #    if target.name == 'RCT-Folly'
+  #      target.build_configurations.each do |config|
+  #        config.build_settings['HEADER_SEARCH_PATHS'] = "$(inherited) ${PODS_ROOT}/fmt/include"
+  #      end
+  #    end
+  #  end
 
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|

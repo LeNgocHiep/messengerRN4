@@ -26,9 +26,9 @@ const loginIsLoading = (bool) => {
 };
 
 export const login = (username, password) => async (dispatch) => {
-  const users = getAllUser();
-  console.log(users);
 
+  const users = await getAllUser();
+  const user = users[0];
   console.log("user", username);
   console.log("pass", password);
   dispatch(loginIsLoading(true));
