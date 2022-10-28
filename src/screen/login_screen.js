@@ -1,4 +1,4 @@
-import React, { useInsertionEffect, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import EmailInputComponent from "../components/email_input_component";
 import PasswordInputComponent from "../components/password_input_component";
@@ -9,7 +9,7 @@ import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { login } from "../actions/login_action";
 import { useDispatch, useSelector } from "react-redux";
-import { log } from "react-native-reanimated";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const LoginScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -26,6 +26,11 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAwareScrollView>
+      <Spinner
+        visible={loginInfo.isLoading}
+        textContent={"Loading..."}
+        // textStyle={styles.spinnerTextStyle}
+      />
       <View
         style={{
           width: width,
@@ -75,9 +80,10 @@ const LoginScreen = ({ navigation }) => {
               color: Colors.backgroundLight,
             }}
             text="Log in"
-            onPress={() => {
-              dispatch(login(email, password));
-            }
+            onPress={
+              () => {
+                dispatch(login(email, password, navigation));
+              }
               // console.log("LOgin");
               // login.login(email, password);
               // this.props.login(email, password);

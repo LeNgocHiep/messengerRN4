@@ -2,7 +2,7 @@ import Realm from "realm";
 import { User } from "./user_schema";
 
 const databaseConfig = {
-  path: "myrealm",
+  path: "database.realm",
   schema: [User.schema],
 }
 

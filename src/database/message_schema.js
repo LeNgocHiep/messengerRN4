@@ -1,50 +1,77 @@
-// import { realm } from "./database_manager";
-// import { CONVERSATION } from "./conversation_schema";
+import { getRealm } from "./database_manager";
+import { CONVERSATION } from "./conversation_schema";
 
-// export const MESSAGE = "MESSAGE";
+export const MESSAGE = "MESSAGE";
 
-// export const MessageSchema = {
-//   name: MESSAGE,
-//   primaryKey: "messageId",
-//   properties: {
-//     messageId: "string",
-//     conversation: {
-//       type: "linkingObjects",
-//       objectType: CONVERSATION,
-//       property: "messages",
-//     },
-//     content: "string?",
-//     type: "string",
-//     image: "string?",
-//     sentAt: "date",
-//     readAt: "date?",
-//   },
-// };
+export class Message {
+  constructor({ messageId, conversation, content, type, image }) {
+    this.messageId = messageId;
+    this.conversation = conversation;
+    this.content = content;
+    this.type = type;
+    this.image = image;
+    this.sendAt = new Date();
+  }
 
-// export const getMessageById = (messageId) =>realm =>
-//   realm.objectForPrimaryKey(MESSAGE, messageId);
+  static schema = {
+    name: MESSAGE,
+    primaryKey: "messageId",
+    properties: {
+      messageId: "string",
+      conversation: {
+        type: "linkingObjects",
+        objectType: CONVERSATION,
+        property: "messages",
+      },
+      content: "string?",
+      type: "string",
+      image: "string?",
+      sentAt: "date",
+      readAt: "date?",
+    },
+  };
+}
 
-// export const insertMessage = (message) => {
-//   return realm => realm.write(() => realm.create(MESSAGE, message));
-// };
+export const updateReadAt = async (messageId, dateTime) => {
+  const realm = await getRealm();
+  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  return realm.write(() => {
+    message.readAt = dateTime;
+  });
+};
 
-// export const updateMessage = (messageId, newMessage) => {
-//   const message = getMessageById(messageId);
-//   return realm => realm.write(() => {
-//     if (newMessage.content != null) message.content = newMessage.content;
-//     if (newMessage.type != null) message.type = newMessage.type;
-//     if (newMessage.image != null) message.image = newMessage.image;
-//     if (newMessage.sentAt != null) message.sentAt = newMessage.sentAt;
-//     if (newMessage.readAt != null) message.readAt = newMessage.readAt;
-//   });
-// };
+export const getMessageById = async (messageId) => {
+  const realm = await getRealm();
+  return realm.objectForPrimaryKey(MESSAGE, messageId);
+};
 
-// export const deleteMessage = (messageId) => {
-//   const message = getMessageById(messageId);
-//   return realm => realm.write(() => {
-//     realm.delete(message);
-//     message = null;
-//   });
-// };
+export const insertMessage = async (message) => {
+  const realm = await getRealm();
+  return realm.write(() => realm.create(MESSAGE, message));
+};
 
-// export const getAllMessage = () => realm => realm.objects(MESSAGE);
+export const updateMessage = async (messageId, newMessage) => {
+  const realm = await getRealm();
+  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  return realm.write(() => {
+    if (newMessage.content != null) message.content = newMessage.content;
+    if (newMessage.type != null) message.type = newMessage.type;
+    if (newMessage.image != null) message.image = newMessage.image;
+    if (newMessage.sentAt != null) message.sentAt = newMessage.sentAt;
+    if (newMessage.readAt != null) message.readAt = newMessage.readAt;
+  });
+};
+
+export const deleteMessage = async (messageId) => {
+  const realm = await getRealm();
+  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  return realm.write(() => {
+    realm.delete(message);
+    message = null;
+  });
+};
+
+export const getAllMessage = async () => {
+  const realm = await getRealm();
+  return realm.objects(MESSAGE);
+};

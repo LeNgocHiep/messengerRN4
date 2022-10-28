@@ -7,6 +7,7 @@ const firebaseConfig = {
   projectId: "reactchat-c593a",
   appId: "1:870070164651:ios:9ba71a8490f3471fd0ebee", //ios
   // appId:"1:446155438040:android:a1acdcfb905c80cef9a4ad" //android
+  storageBucket:"gs://reactchat-c593a.appspot.com",
 };
 
 export default Firebase.initializeApp(firebaseConfig);

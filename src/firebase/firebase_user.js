@@ -1,14 +1,16 @@
 import Firebase from "./firebase_config";
 
-const AddUser = async (name, email, image, uid) => {
+export const avatarDefault = 'avatar_default.jpeg';
+
+export const addUser = async (name, email, avatar, uid) => {
   try {
     return await Firebase.database()
       .ref("users/" + uid)
       .set({
         name: name,
+        avatar: avatar ?? avatarDefault,
         email: email,
-        image: image,
-        uuid: uid,
+        uid: uid,
       })
       .catch((error) => {
         console.log(error);
@@ -20,13 +22,27 @@ const AddUser = async (name, email, image, uid) => {
   }
 };
 
-const UpdateUserImage = async (image, uid) => {
+export const getUser = async (uid) => {
   try {
-    updateUser(uid, { avatar: image });
-    return await Firebase.database.ref("users/" + uid).update({ image: image });
+    const snapShoot = await Firebase.database()
+      .ref("users/" + uid)
+      .once("value")
+      .catch((error) => {
+        console.log(error);
+        return error;
+      });
+    return snapShoot.val();
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
 
-export default AddUser;
+export const updateUserImage = async (avatar, uid) => {
+  try {
+    // updateUser(uid, { avatar: avatar });
+    return await Firebase.database.ref("users/" + uid).update({ avatar: avatar });
+  } catch (error) {
+    return error;
+  }
+};

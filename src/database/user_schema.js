@@ -1,5 +1,3 @@
-// import { useQuery, useRealm } from "./database_manager";
-import Realm from "realm";
 import { getRealm } from "./database_manager";
 
 export const USER = "USER";
@@ -26,47 +24,18 @@ export class User {
   };
 }
 
-export const getUserById = async(userId) => {
-  // const realm = await Realm.open({
-  //   path: "myrealm",
-  //   schema: [User.schema],
-  // });
+export const getUserById = async (userId) => {
   const realm = await getRealm();
   const user = realm.objectForPrimaryKey(USER, userId);
-  realm.close();
   return user;
 };
 
 export const insertUser = async (user) => {
-  // const realm = await Realm.open({
-  //   path: "myrealm",
-  //   schema: [User.schema],
-  // });
   const realm = await getRealm();
+  const constantUser = realm.objectForPrimaryKey(USER, user.userId);
   const resultUser = realm.write(() => realm.create(USER, user));
-  realm.close();
-  return resultUser;
+  return constantUser ?? resultUser;
 };
-
-// export const updateUser = (userId, newUser) => {
-//   const realm = useRealm();
-//   const user = realm.objectForPrimaryKey(USER, userId);
-//   return realm.write(() => {
-//     if (newUser.name != null) user.name = newUser.name;
-//     if (newUser.email != null) user.email = newUser.email;
-//     if (newUser.avatar != null) user.avatar = newUser.avatar;
-//     if (newUser.createAt != null) user.createAt = newUser.createAt;
-//   });
-// };
-
-// export const deleteUser = (userId) => {
-//   const realm = useRealm();
-//   const user = realm.objectForPrimaryKey(USER, userId);
-//   return realm.write(() => {
-//     realm.delete(user);
-//     user = null;
-//   });
-// };
 
 export const getAllUser = async () => {
   const realm = await getRealm();

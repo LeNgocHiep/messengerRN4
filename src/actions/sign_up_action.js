@@ -2,7 +2,7 @@ import * as ActionTypes from "../utils/action_type";
 // import { Actions } from "react-native-router-flux";
 import SignUpUser from "../firebase/firebase_sign_up";
 import Firebase from "../firebase/firebase_config";
-import AddUser from "../firebase/firebase_user";
+import { addUser } from "../firebase/firebase_user";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { Alert } from "react-native";
 import { insertUser, User } from "../database/user_schema";
@@ -44,20 +44,19 @@ export const signUp =
 
       return;
     }
-    console.log("!1111111");
     SignUpUser(email, password)
       .then(async (res) => {
         const uid = Firebase.auth().currentUser.uid;
-        const user = new User({
-          userId: uid,
-          name: username,
-          email: email,
-          avatar: "",
-          createAt: Date.now(),
-        });
-        const userResult = await insertUser(user);
-        AddUser(username, email, "", uid)
+        addUser(username, email, "", uid)
           .then(async () => {
+            const user = new User({
+              userId: uid,
+              name: username,
+              email: email,
+              avatar: "",
+              createAt: Date.now(),
+            });
+            const userResult = await insertUser(user);
             await EncryptedStorage.setItem("UID", uid);
             dispatch(signUpIsLoading(false));
             showAlert();
