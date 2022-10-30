@@ -3,7 +3,7 @@ import { loginUser } from "../firebase/firebase_login_user";
 import Firebase from "../firebase/firebase_config";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { getUser } from "../firebase/firebase_user";
-import { insertUser, User } from "../database/user_schema";
+import { insertUserIfNeeded, User } from "../database/user_schema";
 
 const isLogged = (bool) => {
   return {
@@ -39,9 +39,15 @@ export const login = (username, password, navigation) => async (dispatch) => {
 
   loginUser(username, password)
     .then(async (res) => {
+      dispatch(loginIsLoading(false));
       const uid = Firebase.auth().currentUser.uid;
       const user = await getUser(uid);
-      await insertUser(
+      if (user == null) {
+        dispatch(loginIsLoading(false));
+        dispatch(loginHasError(true));
+        return;
+      }
+      await insertUserIfNeeded(
         new User({
           userId: uid,
           name: user.name,
@@ -50,8 +56,7 @@ export const login = (username, password, navigation) => async (dispatch) => {
         })
       );
       await EncryptedStorage.setItem("UID", uid);
-      dispatch(loginIsLoading(false));
-      navigation.navigate("SignUp");
+      navigation.replace("HomeScreen");
     })
     .catch((error) => {
       console.log(error);

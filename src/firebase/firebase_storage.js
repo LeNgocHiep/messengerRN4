@@ -13,6 +13,6 @@ export const getUrlAvatarDefault = async () => {
   return await Firebase.storage().ref(avatarDefault).getDownloadURL();
 };
 
-export const getUrlImageByName = async (imageName) => {
+export const getUrlImageByImageName = async (imageName) => {
   return await Firebase.storage().ref(imageName).getDownloadURL();
 };

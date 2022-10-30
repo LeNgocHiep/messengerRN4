@@ -20,9 +20,9 @@ const LoginScreen = ({ navigation }) => {
   const loginInfo = useSelector((state) => state.loginProducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(loginInfo);
-  });
+  // useEffect(() => {
+  //   console.log(loginInfo);
+  // });
 
   return (
     <KeyboardAwareScrollView>
@@ -82,6 +82,7 @@ const LoginScreen = ({ navigation }) => {
             text="Log in"
             onPress={
               () => {
+                // navigation.navigate("HomeScreen");
                 dispatch(login(email, password, navigation));
               }
               // console.log("LOgin");

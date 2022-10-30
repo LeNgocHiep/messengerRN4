@@ -47,6 +47,7 @@ target 'messengerRN4' do
   config = use_native_modules!
   use_frameworks! :linkage => :static
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   $RNFirebaseAsStaticFramework = true
   use_react_native!(
     :path => config[:reactNativePath],

@@ -30,9 +30,10 @@ export const getUserById = async (userId) => {
   return user;
 };
 
-export const insertUser = async (user) => {
+export const insertUserIfNeeded = async (user) => {
   const realm = await getRealm();
   const constantUser = realm.objectForPrimaryKey(USER, user.userId);
+  if (constantUser) return constantUser;
   const resultUser = realm.write(() => realm.create(USER, user));
   return constantUser ?? resultUser;
 };

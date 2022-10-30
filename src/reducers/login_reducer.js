@@ -9,8 +9,8 @@ const initialState = {
   password: "",
 };
 
-const loginReducer = (action, state = initialState) => {
-  switch (action) {
+const loginReducer = (state = initialState,action) => {
+  switch (action.type) {
     case ActionTypes.IS_LOGGED:
       // return action.isLogged;
       // console.log('islogged', action);

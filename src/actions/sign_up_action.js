@@ -2,12 +2,10 @@ import * as ActionTypes from "../utils/action_type";
 // import { Actions } from "react-native-router-flux";
 import SignUpUser from "../firebase/firebase_sign_up";
 import Firebase from "../firebase/firebase_config";
-import { addUser } from "../firebase/firebase_user";
+import { addUser, avatarDefault } from "../firebase/firebase_user";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { Alert } from "react-native";
-import { insertUser, User } from "../database/user_schema";
-
-export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+import { insertUserIfNeeded, User } from "../database/user_schema";
 
 export const signUpSuccess = (bool) => {
   return {
@@ -41,22 +39,21 @@ export const signUp =
     if (!username || !password || !email) {
       dispatch(signupHasError(true));
       dispatch(signUpIsLoading(false));
-
       return;
     }
     SignUpUser(email, password)
       .then(async (res) => {
         const uid = Firebase.auth().currentUser.uid;
-        addUser(username, email, "", uid)
+        addUser(username, email, null, uid)
           .then(async () => {
             const user = new User({
               userId: uid,
               name: username,
               email: email,
-              avatar: "",
+              avatar: avatarDefault,
               createAt: Date.now(),
             });
-            const userResult = await insertUser(user);
+            const userResult = await insertUserIfNeeded(user);
             await EncryptedStorage.setItem("UID", uid);
             dispatch(signUpIsLoading(false));
             showAlert();

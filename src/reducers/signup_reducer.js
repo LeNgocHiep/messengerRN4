@@ -9,8 +9,8 @@ const initialState = {
   password: "",
 };
 
-const signUpReducer = (action, state = initialState) => {
-  switch (action) {
+const signUpReducer = (state = initialState,action) => {
+  switch (action.type) {
     case ActionTypes.SIGNUP_SUCCESS:
       return {
         ...state,
