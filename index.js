@@ -11,6 +11,7 @@ import configStore from "./src/store/config_store";
 import LoginScreen from "./src/screen/login_screen";
 import SignUpScreen from "./src/screen/sign_up_screen";
 import HomeScreen from "./src/screen/home/home_screen";
+import ChatScreen from "./src/screen/chat/chat_screen";
 
 const store = configStore();
 
@@ -21,12 +22,13 @@ const RootComponent = function () {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName="ChatScreen"
           screenOptions={{ headerShown: false, headerTransparent: true }}
         >
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

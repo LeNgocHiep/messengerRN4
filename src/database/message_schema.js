@@ -4,13 +4,14 @@ import { CONVERSATION } from "./conversation_schema";
 export const MESSAGE = "MESSAGE";
 
 export class Message {
-  constructor({ messageId, conversation, content, type, image }) {
+  constructor({ messageId, conversation, content, type, image, senderId }) {
     this.messageId = messageId;
     this.conversation = conversation;
     this.content = content;
     this.type = type;
     this.image = image;
     this.sendAt = new Date();
+    this.senderId = senderId;
   }
 
   static schema = {
@@ -28,6 +29,7 @@ export class Message {
       image: "string?",
       sentAt: "date",
       readAt: "date?",
+      senderId: "string",
     },
   };
 }

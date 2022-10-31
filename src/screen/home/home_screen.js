@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUser, getMainUser } from "../../actions/user_action";
 
-const AppBarComponent = ({mainUserInfo}) => {
+const AppBarComponent = ({ mainUserInfo }) => {
   return (
     <View
       style={{
@@ -96,7 +96,7 @@ const ButtonAddComponent = () => {
   );
 };
 
-const UserComponent = (user) => {
+const UserComponent = ({user}) => {
   return (
     <DropShadow
       style={{
@@ -151,37 +151,7 @@ const UserComponent = (user) => {
   );
 };
 
-const ListUserComponent = (users) => {
-  // const DATA = [
-  //   {
-  //     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-  //     title: "First Item",
-  //   },
-  //   {
-  //     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-  //     title: "Second Item",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571e29d72",
-  //     title: "Third Item",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571ex29d72",
-  //     title: "Third Item",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571e29gd72",
-  //     title: "Third Item",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571we29wd72",
-  //     title: "Third Item",
-  //   },
-  //   {
-  //     id: "58694a0f-3da1-471f-bd96-145571e29dr72",
-  //     title: "Third Item",
-  //   },
-  // ];
+const ListUserComponent = ({users}) => {
   const renderItem = ({ item }) => <UserComponent user={item} />;
   return (
     <View>
@@ -315,12 +285,12 @@ const ListConversationComponent = () => {
 
 const HomeScreen = ({ navigation }) => {
   const mainUserInfo = useSelector((state) => state.mainUserReducer);
-  const users = useSelector((state) => state.listUserReducer);
+  const usersInfo = useSelector((state) => state.listUserReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMainUser());
-    // dispatch(getListUser());
+    dispatch(getListUser());
     console.log("useEffect");
   }, []);
 
@@ -350,7 +320,9 @@ const HomeScreen = ({ navigation }) => {
         {/* if({users.length} > 0){
           <ListUserComponent users={users} />
         } */}
-        {users.length > 0 ? <ListUserComponent users={users} /> : null}
+        {usersInfo?.users?.length > 0 ? (
+          <ListUserComponent users={usersInfo.users} />
+        ) : <View/>}
 
         <ListConversationComponent />
       </SafeAreaView>

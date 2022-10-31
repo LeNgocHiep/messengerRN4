@@ -48,11 +48,22 @@ export const getMainUser = () => async (dispatch) => {
 
 export const getListUser = () => async (dispatch) => {
   dispatch(getListUserIsLoading(true));
-  const users = await getAllUser();
-  for (let i = 0; i < users.length; i++) {
-    let longAvatar = await getUrlImageByImageName(users[i].avatar);
-    users[i].avatar = longAvatar;
-  }
-  dispatch(getListUserIsLoading(false));
-  dispatch(getListUserSuccess(users));
+  getAllUser().then( async(users)=>{
+    const newUsers = [];
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      const longAvatar = await getUrlImageByImageName(user.avatar);
+      const newUser = {
+        userId: user.userId,
+        name: user.name,
+        email: user.email,
+        avatar: longAvatar,
+        createAt: new Date(),
+      };
+      newUsers.push(newUser);
+    }
+    dispatch(getListUserIsLoading(false));
+    dispatch(getListUserSuccess(newUsers));
+  });
+
 };

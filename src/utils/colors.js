@@ -7,4 +7,7 @@ export const Colors = {
   hintText: "#888888",
   red: "#FD6B6B",
   blue: "#05a8f1",
+
+  bubbleIncoming:'#373E4E',
+  bubbleOutgoing:'#272A35'
 };
