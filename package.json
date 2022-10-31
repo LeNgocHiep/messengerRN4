@@ -20,6 +20,7 @@
     "firebase": "^8.x",
     "react": "18.0.0",
     "react-native": "0.69.6",
+    "react-native-autogrow-textinput": "^5.4.0",
     "react-native-drop-shadow": "^0.0.6",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-gesture-handler": "^2.7.1",

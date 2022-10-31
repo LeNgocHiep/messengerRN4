@@ -1,4 +1,3 @@
-import { Colors } from "../../utils/colors";
 import { View, Image, Text, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-gesture-handler";
@@ -8,38 +7,10 @@ import LinearGradient from "react-native-linear-gradient";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUser, getMainUser } from "../../actions/user_action";
+import MainUserComponent from "./components/main_user_component";
+import { Colors } from "../../utils/colors";
+import ListUserComponent from "./components/list_user_component";
 
-const AppBarComponent = ({ mainUserInfo }) => {
-  return (
-    <View
-      style={{
-        width: "100%",
-        height: 50,
-        flexDirection: "row",
-        paddingLeft: 20,
-        alignItems: "center",
-      }}
-    >
-      <Image
-        source={{
-          uri:
-            mainUserInfo?.avatar ??
-            "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-social-media-user-vector-image-icon-default-avatar-profile-icon-social-media-user-vector-image-209162840.jpg",
-        }}
-        style={{ width: 45, height: 45, borderRadius: 45 / 2 }}
-      />
-      <Text
-        style={{
-          color: Colors.backgroundLight,
-          fontSize: 24,
-          paddingLeft: 20,
-        }}
-      >
-        {mainUserInfo?.name ?? ""}
-      </Text>
-    </View>
-  );
-};
 const SearchComponent = () => {
   return (
     <View
@@ -92,87 +63,6 @@ const ButtonAddComponent = () => {
       }}
     >
       <Icon name="add-outline" size={20} color={Colors.backgroundLight} />
-    </View>
-  );
-};
-
-const UserComponent = ({user}) => {
-  return (
-    <DropShadow
-      style={{
-        paddingTop: 10,
-        paddingBottom: 40,
-        shadowColor: "#000000",
-        shadowOffset: {
-          width: 20,
-          height: 17,
-        },
-        shadowOpacity: 0.45,
-        shadowRadius: 15,
-      }}
-    >
-      <View>
-        <Image
-          source={{
-            uri: user.avatar,
-          }}
-          style={{
-            // zIndex: 1,
-            width: 95,
-            height: 140,
-            borderRadius: 30,
-
-            // shadowColor: "#000",
-            // shadowOffset: { height: 3, width: 3 },
-            // shadowOpacity: 0.8,
-            // shadowRadius: 0.5
-          }}
-        />
-        <LinearGradient
-          colors={["rgba(41,47,63,0)", "rgba(41,47,63,0.8)"]}
-          style={{
-            position: "absolute",
-            width: 95,
-            height: 140,
-            borderRadius: 30,
-            paddingHorizontal: 5,
-            paddingTop: 80,
-          }}
-        >
-          <Text style={{ color: Colors.backgroundLight, height: 34 }}>
-            {user.name}
-          </Text>
-          <View style={{ alignItems: "flex-end", paddingEnd: 10 }}>
-            <Icon name={"heart"} size={16} color={Colors.backgroundLight} />
-          </View>
-        </LinearGradient>
-      </View>
-    </DropShadow>
-  );
-};
-
-const ListUserComponent = ({users}) => {
-  const renderItem = ({ item }) => <UserComponent user={item} />;
-  return (
-    <View>
-      <Text
-        style={{
-          paddingStart: 20,
-          color: Colors.backgroundLight,
-          fontSize: 24,
-        }}
-      >
-        {"Favourite"}
-      </Text>
-      <FlatList
-        horizontal
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-        showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
-        data={users}
-        renderItem={renderItem}
-        // keyExtractor={item => item.id}
-      />
     </View>
   );
 };
@@ -284,16 +174,6 @@ const ListConversationComponent = () => {
 };
 
 const HomeScreen = ({ navigation }) => {
-  const mainUserInfo = useSelector((state) => state.mainUserReducer);
-  const usersInfo = useSelector((state) => state.listUserReducer);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getMainUser());
-    dispatch(getListUser());
-    console.log("useEffect");
-  }, []);
-
   return (
     <View
       style={{
@@ -303,7 +183,7 @@ const HomeScreen = ({ navigation }) => {
       }}
     >
       <SafeAreaView>
-        <AppBarComponent mainUserInfo={mainUserInfo.user} />
+        <MainUserComponent />
         <View
           style={{
             width: "100%",
@@ -317,13 +197,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={{ width: 20 }} />
           <ButtonAddComponent />
         </View>
-        {/* if({users.length} > 0){
-          <ListUserComponent users={users} />
-        } */}
-        {usersInfo?.users?.length > 0 ? (
-          <ListUserComponent users={usersInfo.users} />
-        ) : <View/>}
-
+        <ListUserComponent />
         <ListConversationComponent />
       </SafeAreaView>
     </View>

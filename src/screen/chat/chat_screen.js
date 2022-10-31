@@ -1,20 +1,16 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../utils/colors";
+import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import {
   Image,
   FlatList,
   View,
   Dimensions,
   Text,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
-  TouchableWithoutFeedback,
-  Button,
-  Keyboard,
 } from "react-native";
 import DropShadow from "react-native-drop-shadow";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import React from "react";
 
@@ -117,6 +113,7 @@ const TextInputComponent = () => {
         style={{
           width: "100%",
           paddingHorizontal: 20,
+          paddingTop: 20,
           // height: 70,
           alignItems: "center",
           flexDirection: "row",
@@ -125,27 +122,24 @@ const TextInputComponent = () => {
         <View
           style={{
             flexDirection: "row",
-            //   backgroundColor: Colors.backgroundDark80,
-            // width: "75%",
             flex: 1,
             backgroundColor: Colors.backgroundDark,
             borderRadius: 15,
           }}
         >
-          <TextInput
+          <AutoGrowingTextInput
             style={{
               flex: 1,
               height: 50,
               paddingLeft: 20,
+              paddingTop: 14,
               fontSize: 16,
               color: Colors.backgroundLight,
-              //   alignItems: 'flex-end'
-              // justifyContent:"space-between"
             }}
             multiline={true}
             placeholder={"Write..."}
             placeholderTextColor={Colors.hintText}
-          ></TextInput>
+          ></AutoGrowingTextInput>
           <View
             style={{
               width: 50,
@@ -153,10 +147,11 @@ const TextInputComponent = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
+              backgroundColor: Colors.backgroundDark55
             }}
           >
             <Icon
-              name="chatbubble-outline"
+              name="send"
               size={20}
               color={Colors.backgroundLight}
             />
@@ -257,24 +252,6 @@ const ChatScreen = ({ navigation, mainUserId }) => {
       conversationId: "0a2f36a7-bfe1-4091-92cd-8607a3d53c34",
     },
   ];
-  // return (
-  //   <View
-  //     style={{
-  //       width: "100%",
-  //       height: "100%",
-  //       backgroundColor: Colors.backgroundDark60,
-  //     }}
-  //   >
-  //     <AppBar users={DATA} />
-  //     {/* <View style={{ flex: 1}}> */}
-  //     <ListMessageComponent
-  //       messages={MESSAGES_DATA}
-  //       mainUserId={"641af744-b43f-4211-b8d0-eba4bcdfd353"}
-  //     />
-  //     {/* </View> */}
-  //     <TextInputComponent />
-  //   </View>
-  // );
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
