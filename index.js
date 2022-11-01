@@ -22,7 +22,7 @@ const RootComponent = function () {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="HomeScreen"
+          initialRouteName="Login"
           screenOptions={{ headerShown: false, headerTransparent: true }}
         >
           <Stack.Screen name="Login" component={LoginScreen} />

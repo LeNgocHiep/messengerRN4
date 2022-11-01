@@ -1,11 +1,11 @@
 import * as ActionTypes from "../utils/action_type";
 // import { Actions } from "react-native-router-flux";
-import SignUpUser from "../firebase/firebase_sign_up";
+import SignUpUserFB from "../firebase/firebase_sign_up";
 import Firebase from "../firebase/firebase_config";
-import { addUser, avatarDefault } from "../firebase/firebase_user";
+import { addUserFB, avatarDefault } from "../firebase/firebase_user";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { Alert } from "react-native";
-import { insertUserIfNeeded, User } from "../database/user_schema";
+import { insertUserIfNeededDB, User } from "../database/user_schema";
 
 export const signUpSuccess = (bool) => {
   return {
@@ -41,19 +41,20 @@ export const signUp =
       dispatch(signUpIsLoading(false));
       return;
     }
-    SignUpUser(email, password)
+    SignUpUserFB(email, password)
       .then(async (res) => {
         const uid = Firebase.auth().currentUser.uid;
-        addUser(username, email, null, uid)
+        const createAt = (new Date()).getTime();
+        addUserFB(username, email, null, uid, createAt)
           .then(async () => {
             const user = new User({
               userId: uid,
               name: username,
               email: email,
               avatar: avatarDefault,
-              createAt: Date.now(),
+              createAt: createAt,
             });
-            const userResult = await insertUserIfNeeded(user);
+            const userResult = await insertUserIfNeededDB(user);
             await EncryptedStorage.setItem("UID", uid);
             dispatch(signUpIsLoading(false));
             showAlert();

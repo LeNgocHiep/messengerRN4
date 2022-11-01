@@ -9,48 +9,66 @@ import {
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import DropShadow from "react-native-drop-shadow";
 import LinearGradient from "react-native-linear-gradient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListUser } from "../../../actions/user_action";
+import { getListUserAction } from "../../../actions/user_action";
 import { Colors } from "../../../utils/colors";
+import createConversationReducer from "../reducers/create_conversation_reducer";
+import { createConversationAction } from "../../../actions/conversation_action";
+import { getUrlImageByImageName } from "../../../firebase/firebase_storage";
 
-const UserComponent = ({ user }) => {
-  return (
-    <TouchableOpacity onPress={() => {
-      
-    }}>
-      <DropShadow style={styles.userContainer}>
-        <View>
-          <Image
-            source={{
-              uri: user.avatar,
-            }}
-            style={styles.image}
-          />
-          <LinearGradient
-            colors={["rgba(41,47,63,0)", "rgba(41,47,63,0.8)"]}
-            style={styles.gradient}
-          >
-            <Text style={styles.text}>{user.name}</Text>
-            <View style={styles.icon}>
-              <Icon name={"heart"} size={16} color={Colors.backgroundLight} />
-            </View>
-          </LinearGradient>
-        </View>
-      </DropShadow>
-    </TouchableOpacity>
-  );
-};
-
-const ListUserComponent = () => {
+const ListUserComponent = ({ navigation }) => {
   const usersInfo = useSelector((state) => state.listUserReducer);
+  const conversationInfo = useSelector(
+    (state) => state.createConversationReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getListUser());
+    dispatch(getListUserAction());
     console.log("useEffect");
   }, []);
+
+  const UserComponent = ({ user }) => {
+    const [avatar, setAvatar] = useState();
+
+    useEffect(() => {
+      getUrlImageByImageName(user.avatar).then((url) => {
+        setAvatar(url);
+      });
+    }, []);
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(createConversationAction(user.userId, navigation));
+        }}
+      >
+        <DropShadow style={styles.userContainer}>
+          <View>
+            <Image
+              source={{
+                uri: avatar,
+              }}
+              style={styles.image}
+            />
+            <LinearGradient
+              colors={["rgba(41,47,63,0)", "rgba(41,47,63,0.8)"]}
+              style={styles.gradient}
+            >
+              <Text style={styles.text}>{user.name}</Text>
+              <View style={styles.icon}>
+                <Icon name={"heart"} size={16} color={Colors.backgroundLight} />
+              </View>
+            </LinearGradient>
+          </View>
+        </DropShadow>
+      </TouchableOpacity>
+    );
+  };
+
   const renderItem = ({ item }) => <UserComponent user={item} />;
+
   return usersInfo?.users?.length > 0 ? (
     <View>
       <Text style={styles.listUserContainer}>{"Favourite"}</Text>

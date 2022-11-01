@@ -1,7 +1,7 @@
 import Firebase from "./firebase_config";
 import { avatarDefault } from "./firebase_user";
 
-export const uploadImage = async (pathLocal) => {
+export const uploadImageFB = async (pathLocal) => {
   const listString = pathLocal.split("/");
   const fileName = listString[listString.length - 1];
   const reference = Firebase.storage().ref(fileName);
@@ -9,7 +9,7 @@ export const uploadImage = async (pathLocal) => {
   return fileName;
 };
 
-export const getUrlAvatarDefault = async () => {
+export const getUrlAvatarDefaultFB = async () => {
   return await Firebase.storage().ref(avatarDefault).getDownloadURL();
 };
 

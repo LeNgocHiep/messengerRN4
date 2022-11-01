@@ -4,13 +4,13 @@ import { CONVERSATION } from "./conversation_schema";
 export const MESSAGE = "MESSAGE";
 
 export class Message {
-  constructor({ messageId, conversation, content, type, image, senderId }) {
+  constructor({ messageId, conversation, content, type, image, senderId, sendAt }) {
     this.messageId = messageId;
     this.conversation = conversation;
     this.content = content;
     this.type = type;
     this.image = image;
-    this.sendAt = new Date();
+    this.sendAt = sendAt;
     this.senderId = senderId;
   }
 
@@ -27,14 +27,14 @@ export class Message {
       content: "string?",
       type: "string",
       image: "string?",
-      sentAt: "date",
-      readAt: "date?",
+      sentAt: "int",
+      readAt: "int?",
       senderId: "string",
     },
   };
 }
 
-export const updateReadAt = async (messageId, dateTime) => {
+export const updateReadAtDB = async (messageId, dateTime) => {
   const realm = await getRealm();
   const message = realm.objectForPrimaryKey(MESSAGE, messageId);
   return realm.write(() => {
@@ -42,17 +42,17 @@ export const updateReadAt = async (messageId, dateTime) => {
   });
 };
 
-export const getMessageById = async (messageId) => {
+export const getMessageByIdDB = async (messageId) => {
   const realm = await getRealm();
   return realm.objectForPrimaryKey(MESSAGE, messageId);
 };
 
-export const insertMessage = async (message) => {
+export const insertMessageDB = async (message) => {
   const realm = await getRealm();
   return realm.write(() => realm.create(MESSAGE, message));
 };
 
-export const updateMessage = async (messageId, newMessage) => {
+export const updateMessageDB = async (messageId, newMessage) => {
   const realm = await getRealm();
   const message = realm.objectForPrimaryKey(MESSAGE, messageId);
   return realm.write(() => {
@@ -64,7 +64,7 @@ export const updateMessage = async (messageId, newMessage) => {
   });
 };
 
-export const deleteMessage = async (messageId) => {
+export const deleteMessageDB = async (messageId) => {
   const realm = await getRealm();
   const message = realm.objectForPrimaryKey(MESSAGE, messageId);
   return realm.write(() => {
@@ -73,7 +73,7 @@ export const deleteMessage = async (messageId) => {
   });
 };
 
-export const getAllMessage = async () => {
+export const getAllMessageDB = async () => {
   const realm = await getRealm();
   return realm.objects(MESSAGE);
 };

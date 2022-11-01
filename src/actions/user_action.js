@@ -1,7 +1,6 @@
-import { getAllUser, getUserById, User } from "../database/user_schema";
-import EncryptedStorage from "react-native-encrypted-storage";
 import * as ActionTypes from "../utils/action_type";
-import { getUrlImageByImageName } from "../firebase/firebase_storage";
+import { getMainUser, getListUser } from "../database/database_manager";
+
 
 const getMainUserIsLoading = (bool) => {
   return {
@@ -29,41 +28,18 @@ const getListUserSuccess = (users) => {
   };
 };
 
-export const getMainUser = () => async (dispatch) => {
-  EncryptedStorage.getItem("UID").then(async (userId) => {
-    dispatch(getMainUserIsLoading(true));
-    const user = await getUserById(userId);
-    const longAvatar = await getUrlImageByImageName(user.avatar);
-    const newUser = {
-      userId: user.userId,
-      name: user.name,
-      email: user.email,
-      avatar: longAvatar,
-      createAt: new Date(),
-    };
-    dispatch(getMainUserIsLoading(false));
-    dispatch(getMainUserSuccess(newUser));
-  });
+export const getMainUserAction = () => async (dispatch) => {
+  dispatch(getMainUserIsLoading(true));
+  const user = await getMainUser();
+  dispatch(getMainUserIsLoading(false));
+  dispatch(getMainUserSuccess(user));
 };
 
-export const getListUser = () => async (dispatch) => {
+export const getListUserAction = () => async (dispatch) => {
   dispatch(getListUserIsLoading(true));
-  getAllUser().then( async(users)=>{
-    const newUsers = [];
-    for (let i = 0; i < users.length; i++) {
-      const user = users[i];
-      const longAvatar = await getUrlImageByImageName(user.avatar);
-      const newUser = {
-        userId: user.userId,
-        name: user.name,
-        email: user.email,
-        avatar: longAvatar,
-        createAt: new Date(),
-      };
-      newUsers.push(newUser);
-    }
-    dispatch(getListUserIsLoading(false));
-    dispatch(getListUserSuccess(newUsers));
-  });
-
+  const users = await getListUser();
+  dispatch(getListUserIsLoading(false));
+  dispatch(getListUserSuccess(users));
 };
+
+

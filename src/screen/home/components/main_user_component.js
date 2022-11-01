@@ -1,24 +1,30 @@
 import { View, Image, Text, StyleSheet } from "react-native";
 import { Colors } from "../../../utils/colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMainUser } from "../../../actions/user_action";
+import { getMainUserAction } from "../../../actions/user_action";
+import { getUrlImageByImageName } from "../../../firebase/firebase_storage";
 
 const MainUserComponent = () => {
   const mainUserInfo = useSelector((state) => state.mainUserReducer);
   const dispatch = useDispatch();
+  const [avatar, setAvatar] = useState();
 
   useEffect(() => {
-    dispatch(getMainUser());
-    console.log("useEffect");
+    dispatch(getMainUserAction());
   }, []);
+
+  useEffect(() => {
+    getUrlImageByImageName(mainUserInfo?.user?.avatar).then((url) => {
+      setAvatar(url);
+    });
+  }, [mainUserInfo?.user]);
+
   return (
     <View style={styles.container}>
       <Image
         source={{
-          uri:
-            mainUserInfo?.user?.avatar ??
-            "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-social-media-user-vector-image-icon-default-avatar-profile-icon-social-media-user-vector-image-209162840.jpg",
+          uri: avatar,
         }}
         style={styles.image}
       />
@@ -27,25 +33,23 @@ const MainUserComponent = () => {
   );
 };
 const styles = StyleSheet.create({
-    container: {
-      width: "100%",
-      height: 50,
-      flexDirection: "row",
-      paddingLeft: 20,
-      alignItems: "center",
-    },
-    image: {
-      width: 45,
-      height: 45,
-      borderRadius: 45 / 2,
-    },
-    text: {
-      color: Colors.backgroundLight,
-      fontSize: 24,
-      paddingLeft: 20,
-    },
-  });
+  container: {
+    width: "100%",
+    height: 50,
+    flexDirection: "row",
+    paddingLeft: 20,
+    alignItems: "center",
+  },
+  image: {
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2,
+  },
+  text: {
+    color: Colors.backgroundLight,
+    fontSize: 24,
+    paddingLeft: 20,
+  },
+});
 
 export default MainUserComponent;
-
-

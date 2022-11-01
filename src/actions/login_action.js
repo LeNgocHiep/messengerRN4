@@ -1,9 +1,9 @@
 import * as ActionTypes from "../utils/action_type";
-import { loginUser } from "../firebase/firebase_login_user";
+import { loginUserFB } from "../firebase/firebase_login_user";
 import Firebase from "../firebase/firebase_config";
 import EncryptedStorage from "react-native-encrypted-storage";
-import { getUser } from "../firebase/firebase_user";
-import { insertUserIfNeeded, User } from "../database/user_schema";
+import { getUserFB } from "../firebase/firebase_user";
+import { insertUserIfNeededDB, User } from "../database/user_schema";
 
 const isLogged = (bool) => {
   return {
@@ -37,22 +37,23 @@ export const login = (username, password, navigation) => async (dispatch) => {
     return;
   }
 
-  loginUser(username, password)
+  loginUserFB(username, password)
     .then(async (res) => {
       dispatch(loginIsLoading(false));
       const uid = Firebase.auth().currentUser.uid;
-      const user = await getUser(uid);
+      const user = await getUserFB(uid);
       if (user == null) {
         dispatch(loginIsLoading(false));
         dispatch(loginHasError(true));
         return;
       }
-      await insertUserIfNeeded(
+      await insertUserIfNeededDB(
         new User({
           userId: uid,
           name: user.name,
           email: user.email,
           avatar: user.avatar,
+          createAt: new Date(user.createAt * 1000)
         })
       );
       await EncryptedStorage.setItem("UID", uid);

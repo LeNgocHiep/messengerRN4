@@ -11,7 +11,7 @@ import SvgWaveComponentReg from "../components/shape_wave_component_reg";
 import { signUp } from "../actions/sign_up_action";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
-import { getAllUser } from "../database/user_schema";
+import { getAllUserDB } from "../database/user_schema";
 
 const SignUpScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;

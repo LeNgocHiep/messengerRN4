@@ -24,6 +24,7 @@
     "react-native-drop-shadow": "^0.0.6",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-gesture-handler": "^2.7.1",
+    "react-native-get-random-values": "^1.8.0",
     "react-native-keyboard-aware-scrollview": "^2.1.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-loading-spinner-overlay": "^3.0.1",
@@ -35,7 +36,8 @@
     "react-redux": "^8.0.4",
     "realm": "10.22.0",
     "redux": "^4.2.0",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

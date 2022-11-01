@@ -1,8 +1,8 @@
 import Firebase from "./firebase_config";
 
-export const avatarDefault = 'avatar_default.jpeg';
+export const avatarDefault = "avatar_default.jpeg";
 
-export const addUser = async (name, email, avatar, uid) => {
+export const addUserFB = async (name, email, avatar, uid, createAt) => {
   try {
     return await Firebase.database()
       .ref("users/" + uid)
@@ -11,6 +11,7 @@ export const addUser = async (name, email, avatar, uid) => {
         avatar: avatar ?? avatarDefault,
         email: email,
         uid: uid,
+        createAt: createAt,
       })
       .catch((error) => {
         console.log(error);
@@ -22,7 +23,7 @@ export const addUser = async (name, email, avatar, uid) => {
   }
 };
 
-export const getUser = async (uid) => {
+export const getUserFB = async (uid) => {
   try {
     const snapShoot = await Firebase.database()
       .ref("users/" + uid)
@@ -31,6 +32,15 @@ export const getUser = async (uid) => {
         console.log(error);
         return error;
       });
+    // const avatar = await getUrlImageByImageName(snapShoot.val().avatar);
+    // const user = {
+    //   name: snapShoot.val().name,
+    //   avatar: avatar,
+    //   email: snapShoot.val().email,
+    //   uid: uid,
+    //   createAt: new Date(snapShoot.val().createAt * 1000),
+    // };
+    // return user;
     return snapShoot.val();
   } catch (error) {
     console.log(error);
@@ -38,10 +48,12 @@ export const getUser = async (uid) => {
   }
 };
 
-export const updateUserImage = async (avatar, uid) => {
+export const updateUserImageFB = async (avatar, uid) => {
   try {
     // updateUser(uid, { avatar: avatar });
-    return await Firebase.database.ref("users/" + uid).update({ avatar: avatar });
+    return await Firebase.database
+      .ref("users/" + uid)
+      .update({ avatar: avatar });
   } catch (error) {
     return error;
   }

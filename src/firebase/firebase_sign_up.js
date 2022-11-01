@@ -1,6 +1,6 @@
 import Firebase from "./firebase_config";
 
-const SignUpUser = async (email, password) => {
+const SignUpUserFB = async (email, password) => {
   console.log(email);
   console.log(password);
   try {
@@ -9,4 +9,4 @@ const SignUpUser = async (email, password) => {
     return error;
   }
 };
-export default SignUpUser;
+export default SignUpUserFB;

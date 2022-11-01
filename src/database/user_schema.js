@@ -3,12 +3,12 @@ import { getRealm } from "./database_manager";
 export const USER = "USER";
 
 export class User {
-  constructor({ userId, name, email, avatar }) {
+  constructor({ userId, name, email, avatar, createAt }) {
     this.userId = userId;
     this.name = name;
     this.email = email;
     this.avatar = avatar;
-    this.createAt = new Date();
+    this.createAt = createAt;
   }
 
   static schema = {
@@ -19,18 +19,18 @@ export class User {
       name: "string",
       email: "string",
       avatar: "string",
-      createAt: "date",
+      createAt: "int",
     },
   };
 }
 
-export const getUserById = async (userId) => {
+export const getUserByIdDB = async (userId) => {
   const realm = await getRealm();
   const user = realm.objectForPrimaryKey(USER, userId);
   return user;
 };
 
-export const insertUserIfNeeded = async (user) => {
+export const insertUserIfNeededDB = async (user) => {
   const realm = await getRealm();
   const constantUser = realm.objectForPrimaryKey(USER, user.userId);
   if (constantUser) return constantUser;
@@ -38,7 +38,7 @@ export const insertUserIfNeeded = async (user) => {
   return constantUser ?? resultUser;
 };
 
-export const getAllUser = async () => {
+export const getAllUserDB = async () => {
   const realm = await getRealm();
   return realm.objects(USER);
 };

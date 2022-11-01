@@ -197,8 +197,8 @@ const HomeScreen = ({ navigation }) => {
           <View style={{ width: 20 }} />
           <ButtonAddComponent />
         </View>
-        <ListUserComponent />
-        <ListConversationComponent />
+        <ListUserComponent navigation={navigation} />
+        {/* <ListConversationComponent /> */}
       </SafeAreaView>
     </View>
   );

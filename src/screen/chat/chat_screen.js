@@ -179,7 +179,7 @@ const TextInputComponent = () => {
   );
 };
 
-const ChatScreen = ({ navigation, mainUserId }) => {
+const ChatScreen = ({ route , navigation }) => {
   const DATA = [
     {
       name: "Nellie Deckow",
