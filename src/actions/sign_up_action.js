@@ -6,25 +6,19 @@ import { addUserFB, avatarDefault } from "../firebase/firebase_user";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { Alert } from "react-native";
 import { insertUserIfNeededDB, User } from "../database/user_schema";
+import isLoading from "./loading_action";
 
-export const signUpSuccess = (bool) => {
+const signUpSuccess = (bool) => {
   return {
     type: ActionTypes.SIGNUP_SUCCESS,
     isSuccess: bool,
   };
 };
 
-export const signupHasError = (bool) => {
+const signupHasError = (bool) => {
   return {
     type: ActionTypes.SIGNUP_ERROR,
     hasError: bool,
-  };
-};
-
-export const signUpIsLoading = (bool) => {
-  return {
-    type: ActionTypes.SIGNUP_IS_LOADING,
-    isLoading: bool,
   };
 };
 
@@ -35,10 +29,10 @@ export const signUp =
     console.log("user", username);
     console.log("email", email);
     console.log("pass", password);
-    dispatch(signUpIsLoading(true));
+    dispatch(isLoading(true));
     if (!username || !password || !email) {
       dispatch(signupHasError(true));
-      dispatch(signUpIsLoading(false));
+      dispatch(isLoading(false));
       return;
     }
     SignUpUserFB(email, password)
@@ -56,14 +50,14 @@ export const signUp =
             });
             const userResult = await insertUserIfNeededDB(user);
             await EncryptedStorage.setItem("UID", uid);
-            dispatch(signUpIsLoading(false));
+            dispatch(isLoading(false));
             showAlert();
             // await delay(500);
             // navigation.goBack();
           })
           .catch((error) => {
             console.log(error);
-            dispatch(signUpIsLoading(false));
+            dispatch(isLoading(false));
             dispatch(signupHasError(true));
           });
       })

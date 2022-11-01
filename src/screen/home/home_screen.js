@@ -2,14 +2,11 @@ import { View, Image, Text, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-import DropShadow from "react-native-drop-shadow";
-import LinearGradient from "react-native-linear-gradient";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getListUser, getMainUser } from "../../actions/user_action";
 import MainUserComponent from "./components/main_user_component";
 import { Colors } from "../../utils/colors";
 import ListUserComponent from "./components/list_user_component";
+// import Spinner from "react-native-loading-spinner-overlay";
+// import { useSelector } from "react-redux";
 
 const SearchComponent = () => {
   return (
@@ -174,32 +171,40 @@ const ListConversationComponent = () => {
 };
 
 const HomeScreen = ({ navigation }) => {
+  // const loadingInfo = useSelector((state) => state.loadingReducer);
+  // console.log(loadingInfo);
   return (
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: Colors.backgroundDark60,
-      }}
-    >
-      <SafeAreaView>
-        <MainUserComponent />
-        <View
-          style={{
-            width: "100%",
-            paddingHorizontal: 20,
-            height: 70,
-            alignItems: "center",
-            flexDirection: "row",
-          }}
-        >
-          <SearchComponent />
-          <View style={{ width: 20 }} />
-          <ButtonAddComponent />
-        </View>
-        <ListUserComponent navigation={navigation} />
-        {/* <ListConversationComponent /> */}
-      </SafeAreaView>
+    <View>
+      {/* <Spinner
+        visible={loadingInfo?.isLoading}
+        textContent={loadingInfo?.content}
+      /> */}
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: Colors.backgroundDark60,
+        }}
+      >
+        <SafeAreaView>
+          <MainUserComponent />
+          <View
+            style={{
+              width: "100%",
+              paddingHorizontal: 20,
+              height: 70,
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <SearchComponent />
+            <View style={{ width: 20 }} />
+            <ButtonAddComponent />
+          </View>
+          <ListUserComponent navigation={navigation} />
+          {/* <ListConversationComponent /> */}
+        </SafeAreaView>
+      </View>
     </View>
   );
 };

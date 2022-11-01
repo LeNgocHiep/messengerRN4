@@ -56,7 +56,7 @@ export const createConversation = async (userId) => {
     avatar: user.avatar,
     users: [user, mainUser],
     createAt: createAt,
-    // messages:[]
+    messages:[]
   };
   return await insertConversationDB(conversation);
 };

@@ -4,6 +4,7 @@ import Firebase from "../firebase/firebase_config";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { getUserFB } from "../firebase/firebase_user";
 import { insertUserIfNeededDB, User } from "../database/user_schema";
+import isLoading from "./loading_action";
 
 const isLogged = (bool) => {
   return {
@@ -19,31 +20,24 @@ const loginHasError = (bool) => {
   };
 };
 
-const loginIsLoading = (bool) => {
-  return {
-    type: ActionTypes.LOGIN_IS_LOADING,
-    isLoading: bool,
-  };
-};
 
 export const login = (username, password, navigation) => async (dispatch) => {
   console.log("user", username);
   console.log("pass", password);
-  dispatch(loginIsLoading(true));
+  dispatch(isLoading(true));
   if (!username || !password) {
     dispatch(loginHasError(true));
-    dispatch(loginIsLoading(false));
+    dispatch(isLoading(false));
 
     return;
   }
 
   loginUserFB(username, password)
     .then(async (res) => {
-      dispatch(loginIsLoading(false));
       const uid = Firebase.auth().currentUser.uid;
       const user = await getUserFB(uid);
       if (user == null) {
-        dispatch(loginIsLoading(false));
+        dispatch(isLoading(false));
         dispatch(loginHasError(true));
         return;
       }
@@ -53,10 +47,11 @@ export const login = (username, password, navigation) => async (dispatch) => {
           name: user.name,
           email: user.email,
           avatar: user.avatar,
-          createAt: new Date(user.createAt * 1000)
+          createAt: user.createAt
         })
       );
       await EncryptedStorage.setItem("UID", uid);
+      dispatch(isLoading(false));
       navigation.replace("HomeScreen");
     })
     .catch((error) => {

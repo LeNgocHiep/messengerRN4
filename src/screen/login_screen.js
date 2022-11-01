@@ -9,7 +9,6 @@ import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { login } from "../actions/login_action";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "react-native-loading-spinner-overlay";
 
 const LoginScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -17,7 +16,6 @@ const LoginScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loginInfo = useSelector((state) => state.loginProducer);
   const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -26,11 +24,6 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAwareScrollView>
-      <Spinner
-        visible={loginInfo.isLoading}
-        textContent={"Loading..."}
-        // textStyle={styles.spinnerTextStyle}
-      />
       <View
         style={{
           width: width,

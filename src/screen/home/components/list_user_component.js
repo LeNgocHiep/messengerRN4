@@ -13,15 +13,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUserAction } from "../../../actions/user_action";
 import { Colors } from "../../../utils/colors";
-import createConversationReducer from "../reducers/create_conversation_reducer";
 import { createConversationAction } from "../../../actions/conversation_action";
 import { getUrlImageByImageName } from "../../../firebase/firebase_storage";
-
+// import Spinner from "react-native-loading-spinner-overlay";
 const ListUserComponent = ({ navigation }) => {
   const usersInfo = useSelector((state) => state.listUserReducer);
-  const conversationInfo = useSelector(
-    (state) => state.createConversationReducer
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -69,8 +65,14 @@ const ListUserComponent = ({ navigation }) => {
 
   const renderItem = ({ item }) => <UserComponent user={item} />;
 
+  // const loadingInfo = useSelector((state) => state.loadingReducer);
+  // console.log(loadingInfo);
   return usersInfo?.users?.length > 0 ? (
     <View>
+      {/* <Spinner
+        visible={loadingInfo?.isLoading}
+        textContent={loadingInfo?.content}
+      /> */}
       <Text style={styles.listUserContainer}>{"Favourite"}</Text>
       <FlatList
         horizontal

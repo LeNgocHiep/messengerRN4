@@ -21,11 +21,6 @@ const signUpReducer = (state = initialState,action) => {
         ...state,
         hasError: action.hasError,
       };
-    case ActionTypes.SIGNUP_IS_LOADING:
-      return {
-        ...state,
-        isLoading: action.isLoading,
-      };
     default:
       return state;
   }

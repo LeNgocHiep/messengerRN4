@@ -10,27 +10,18 @@ import NameInputComponent from "../components/name_input_component";
 import SvgWaveComponentReg from "../components/shape_wave_component_reg";
 import { signUp } from "../actions/sign_up_action";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "react-native-loading-spinner-overlay";
 import { getAllUserDB } from "../database/user_schema";
 
 const SignUpScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
   var width = Dimensions.get("window").width;
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const signUpInfo = useSelector((state) => state.signUpReducer);
   const dispatch = useDispatch();
 
   return (
     <KeyboardAwareScrollView>
-      <Spinner
-        visible={signUpInfo.isLoading}
-        textContent={"Loading..."}
-        // textStyle={styles.spinnerTextStyle}
-      />
       <View
         style={{
           width: width,

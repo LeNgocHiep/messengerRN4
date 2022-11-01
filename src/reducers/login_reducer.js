@@ -12,28 +12,14 @@ const initialState = {
 const loginReducer = (state = initialState,action) => {
   switch (action.type) {
     case ActionTypes.IS_LOGGED:
-      // return action.isLogged;
-      // console.log('islogged', action);
-
       return {
         ...state,
         isLogged: action.isLogged,
       };
     case ActionTypes.LOGIN_HAS_ERROR:
-      // return action.loginHasError;
-      // console.log('haserror', action);
-
       return {
         ...state,
         hasError: action.hasError,
-      };
-    case ActionTypes.LOGIN_IS_LOADING:
-      // return action.loginIsLoading;
-      // console.log('isloading', action);
-
-      return {
-        ...state,
-        isLoading: action.isLoading,
       };
     case ActionTypes.LOGIN:
       return {

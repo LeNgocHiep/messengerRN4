@@ -1,22 +1,21 @@
 import * as ActionTypes from "../utils/action_type";
+import isLoading from "./loading_action";
 import {
   createConversation,
   getConversationByUserId,
 } from "../database/database_manager";
 
-const createConversationIsLoading = (bool) => {
-  return {
-    type: ActionTypes.CREATE_CONVERSATION_IS_LOADING,
-    isLoading: bool,
-  };
+export const createConversationAction = (userId, navigation) => async(dispatch) => {
+  dispatch(isLoading(true));
+  getConversationByUserId(userId).then((conversation) => {
+    if (conversation === null) {
+      createConversation(userId).then((conversation) => {
+        dispatch(isLoading(false));
+        navigation.navigate("ChatScreen", conversation);
+      });
+    } else {
+      dispatch(isLoading(false));
+      navigation.navigate("ChatScreen", conversation);
+    }
+  });
 };
-
-export const createConversationAction =
-  ( userId, navigation ) =>
-  async (dispatch) => {
-    dispatch(createConversationIsLoading(true));
-    let conversation = await getConversationByUserId(userId);
-    if (conversation === null) conversation = await createConversation(userId);
-    dispatch(createConversationIsLoading(false));
-    navigation.navigate("ChatScreen", conversation);
-  };
