@@ -82,6 +82,14 @@ export const deleteConversationDB = async (conversationId) => {
   });
 };
 
+export const deleteAllConversationDB = async () => {
+  const realm = await getRealm();
+  realm.write(() => {
+    realm.delete(realm.objects(CONVERSATION));
+  });
+  
+}
+
 export const getAllConversationDB = async () => {
   const realm = await getRealm();
   return realm.objects(CONVERSATION);

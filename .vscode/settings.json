@@ -2,4 +2,7 @@
     "react-native.ios.runArguments.simulator": [
         "--simulator", "iPhone 14 Pro Max"
     ]
+    // "react-native.ios.runArguments.device": [
+    //     "--device", "iPhone"
+    // ]
 }

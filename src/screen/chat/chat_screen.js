@@ -13,8 +13,18 @@ import {
 import DropShadow from "react-native-drop-shadow";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import React from "react";
+import { useEffect, useState } from "react";
+import { getUrlImageByImageName } from "../../firebase/firebase_storage";
 
 const UserComponent = ({ user }) => {
+  const [avatar, setAvatar] = useState();
+
+  useEffect(() => {
+    getUrlImageByImageName(user?.avatar).then((url) => {
+      setAvatar(url);
+    });
+  }, []);
+
   return (
     <DropShadow
       style={{
@@ -31,9 +41,7 @@ const UserComponent = ({ user }) => {
     >
       <Image
         source={{
-          uri:
-            user?.avatar ??
-            "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-social-media-user-vector-image-icon-default-avatar-profile-icon-social-media-user-vector-image-209162840.jpg",
+          uri: avatar,
         }}
         style={{ width: 34, height: 34, borderRadius: 34 / 2 }}
       />
@@ -95,6 +103,7 @@ const ListMessageComponent = ({ messages, mainUserId }) => {
     <MessageComponent message={item} mainUserId={mainUserId} />
   );
   return (
+    // <View style={{ backgroundColor: Colors.backgroundDark }}>
     <FlatList
       contentContainerStyle={{ paddingHorizontal: 20 }}
       showsHorizontalScrollIndicator={false}
@@ -103,6 +112,7 @@ const ListMessageComponent = ({ messages, mainUserId }) => {
       renderItem={renderItem}
       // keyExtractor={item => item.id}
     />
+    // </View>
   );
 };
 
@@ -147,14 +157,10 @@ const TextInputComponent = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
-              backgroundColor: Colors.backgroundDark55
+              backgroundColor: Colors.backgroundDark55,
             }}
           >
-            <Icon
-              name="send"
-              size={20}
-              color={Colors.backgroundLight}
-            />
+            <Icon name="send" size={20} color={Colors.backgroundLight} />
           </View>
         </View>
         <View style={{ width: 20 }} />
@@ -179,7 +185,7 @@ const TextInputComponent = () => {
   );
 };
 
-const ChatScreen = ({ route , navigation }) => {
+const ChatScreen = ({ route, navigation }) => {
   const DATA = [
     {
       name: "Nellie Deckow",
@@ -252,6 +258,8 @@ const ChatScreen = ({ route , navigation }) => {
       conversationId: "0a2f36a7-bfe1-4091-92cd-8607a3d53c34",
     },
   ];
+  const conversation = route.params.conversation;
+  const mainUserId = route.params.mainUserId;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -263,11 +271,13 @@ const ChatScreen = ({ route , navigation }) => {
           flex: 1,
         }}
       >
-        <AppBar users={DATA} />
-        <ListMessageComponent
-          messages={MESSAGES_DATA}
-          mainUserId={"641af744-b43f-4211-b8d0-eba4bcdfd353"}
-        />
+        <AppBar users={conversation?.users} />
+        {/* <View style={{backgroundColor:Colors.backgroundDark,flex:1}}> */}
+          <ListMessageComponent
+            messages={conversation?.messages}
+            mainUserId={mainUserId}
+          />
+        {/* </View> */}
         <TextInputComponent />
       </View>
     </KeyboardAvoidingView>

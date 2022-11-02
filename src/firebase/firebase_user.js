@@ -2,15 +2,15 @@ import Firebase from "./firebase_config";
 
 export const avatarDefault = "avatar_default.jpeg";
 
-export const addUserFB = async (name, email, avatar, uid, createAt) => {
+export const addUserFB = async (name, email, avatar, userId, createAt) => {
   try {
     return await Firebase.database()
-      .ref("users/" + uid)
+      .ref("users/" + userId)
       .set({
         name: name,
         avatar: avatar ?? avatarDefault,
         email: email,
-        uid: uid,
+        userId: userId,
         createAt: createAt,
       })
       .catch((error) => {

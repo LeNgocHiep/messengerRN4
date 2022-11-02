@@ -9,6 +9,7 @@ import {
   getConversationByIdDB,
   Conversation,
   getConversationByUserIdDB,
+  getAllConversationDB,
 } from "./conversation_schema";
 import { Message } from "./message_schema";
 
@@ -30,16 +31,29 @@ export const getListUser = async () => {
 export const getMainUser = async () => {
   const userId = await EncryptedStorage.getItem("UID");
   const user = await getUserByIdDB(userId);
-  return user;
+  const result = {
+    avatar: user.avatar,
+    createAt: user.createAt,
+    email: user.email,
+    name: user.name,
+    userId: user.userId
+  }
+  return result;
 };
 
 export const getUserByIdApi = async (userId) => {
-  const userLocal = await getUserByIdDB(userId);
-  if (userLocal === undefined) {
-    const userApi = await getUserFB(userId);
-    return userApi;
+  let user = await getUserByIdDB(userId);
+  if (user === undefined) {
+     user = await getUserFB(userId);
   }
-  return userLocal;
+  const result = {
+    avatar: user.avatar,
+    createAt: user.createAt,
+    email: user.email,
+    name: user.name,
+    userId: user.userId
+  }
+  return result;
 };
 //user end
 
@@ -71,4 +85,9 @@ export const getConversationByUserId = async (userId) => {
   if (conversation.length > 0) return conversation[0];
   return null;
 };
+
+export const getConversations = async() => {
+  const conversations = await getAllConversationDB();
+  return conversations;
+}
 //conversation end

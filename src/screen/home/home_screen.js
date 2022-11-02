@@ -5,8 +5,12 @@ import Icon from "react-native-vector-icons/dist/Ionicons";
 import MainUserComponent from "./components/main_user_component";
 import { Colors } from "../../utils/colors";
 import ListUserComponent from "./components/list_user_component";
+import ListConversationComponent from "./components/list_conversation_component";
 // import Spinner from "react-native-loading-spinner-overlay";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { onListenConversationsAction } from "../../actions/conversation_action";
+
 
 const SearchComponent = () => {
   return (
@@ -64,115 +68,16 @@ const ButtonAddComponent = () => {
   );
 };
 
-const ConversationItem = () => {
-  return (
-    <View style={{ flexDirection: "row" }}>
-      <Image
-        source={{
-          uri: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-        }}
-        style={{ width: 45, height: 45, borderRadius: 45 / 2 }}
-      />
-      <View
-        style={{
-          flexDirection: "column",
-          flex: 1,
-          paddingHorizontal: 10,
-          justifyContent: "space-around",
-        }}
-      >
-        <Text
-          style={{
-            color: Colors.backgroundLight,
-            fontSize: 15,
-            fontWeight: "600",
-          }}
-        >
-          {"James Cameroon"}
-        </Text>
-        <Text
-          style={{
-            color: Colors.backgroundLight,
-            fontSize: 13,
-            fontWeight: "300",
-          }}
-        >
-          {"New message"}
-        </Text>
-      </View>
-      <View style={{ justifyContent: "center" }}>
-        <Text
-          style={{
-            color: Colors.backgroundLight,
-            fontSize: 15,
-            fontWeight: "600",
-          }}
-        >
-          {"08:43"}
-        </Text>
-      </View>
-    </View>
-  );
-};
-
-const ListConversationComponent = () => {
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "First Item",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571ex29d72",
-      title: "Third Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29gd72",
-      title: "Third Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571we29wd72",
-      title: "Third Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29dr72",
-      title: "Third Item",
-    },
-  ];
-  const renderItem = ({ item }) => <ConversationItem />;
-  return (
-    <View>
-      {/* <Text
-        style={{
-          paddingStart: 20,
-          color: Colors.backgroundLight,
-          fontSize: 24,
-        }}
-      >
-        {"Favourite"}
-      </Text> */}
-      <FlatList
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-        showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        data={DATA}
-        renderItem={renderItem}
-        // keyExtractor={item => item.id}
-      />
-    </View>
-  );
-};
-
 const HomeScreen = ({ navigation }) => {
   // const loadingInfo = useSelector((state) => state.loadingReducer);
   // console.log(loadingInfo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(onListenConversationsAction());
+    console.log("useEffect");
+  }, []);
+
   return (
     <View>
       {/* <Spinner
@@ -202,7 +107,9 @@ const HomeScreen = ({ navigation }) => {
             <ButtonAddComponent />
           </View>
           <ListUserComponent navigation={navigation} />
-          {/* <ListConversationComponent /> */}
+          {/* <View style={{ flex: 1 }}> */}
+          <ListConversationComponent navigation={navigation} />
+          {/* </View> */}
         </SafeAreaView>
       </View>
     </View>
