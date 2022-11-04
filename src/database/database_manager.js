@@ -1,5 +1,10 @@
 import Realm from "realm";
-import { getAllUserDB, getUserByIdDB, User } from "../database/user_schema";
+import {
+  getAllUserDB,
+  getUserByIdDB,
+  insertUserIfNeededDB,
+  User,
+} from "../database/user_schema";
 import EncryptedStorage from "react-native-encrypted-storage";
 import { getUserFB } from "../firebase/firebase_user";
 import "react-native-get-random-values";
@@ -9,9 +14,14 @@ import {
   getConversationByIdDB,
   Conversation,
   getConversationByUserIdDB,
-  getAllConversationDB,
+  getAllConversationHaveMessageDB,
 } from "./conversation_schema";
-import { Message } from "./message_schema";
+import {
+  deleteMultiMessageDB,
+  getAllMessageDB,
+  insertMessageDB,
+  Message,
+} from "./message_schema";
 
 const databaseConfig = {
   path: "database.realm",
@@ -31,63 +41,81 @@ export const getListUser = async () => {
 export const getMainUser = async () => {
   const userId = await EncryptedStorage.getItem("UID");
   const user = await getUserByIdDB(userId);
-  const result = {
-    avatar: user.avatar,
-    createAt: user.createAt,
-    email: user.email,
-    name: user.name,
-    userId: user.userId
-  }
-  return result;
+  return user;
 };
 
 export const getUserByIdApi = async (userId) => {
   let user = await getUserByIdDB(userId);
   if (user === undefined) {
-     user = await getUserFB(userId);
+    user = await getUserFB(userId);
+    user = await insertUserIfNeededDB(user);
   }
-  const result = {
-    avatar: user.avatar,
-    createAt: user.createAt,
-    email: user.email,
-    name: user.name,
-    userId: user.userId
-  }
-  return result;
+  return user;
 };
 //user end
+//message
+export const createMessage = async (content, conversationId) => {
+  // let conversation = await getConversationById(conversationId);
+  let mainUser = await getMainUser();
+  let messageId = uuidv1();
+  let createAt = new Date().getTime();
+  let message = {
+    messageId: messageId,
+    // conversation: conversation,
+    content: content,
+    type: "text",
+    image: "",
+    senderId: mainUser.userId,
+    sentAt: createAt,
+  };
+
+  return await insertMessageDB(message, conversationId);
+};
+
+export const getAllMessageByConversationId = async (conversationId) => {
+  let conversation = await getConversationById(conversationId);
+  // let all = await getAllMessageDB();
+  return conversation.messages;
+  // return all;
+};
+//message
 
 //conversation start
 export const createConversation = async (userId) => {
-  const user = await getUserByIdApi(userId);
-  const mainUser = await getMainUser();
-  const name = `${user.name}, ${mainUser.name}`;
-  const conversationId = uuidv1();
-  const createAt = new Date().getTime();
-  const conversation = {
+  let user = await getUserByIdApi(userId);
+  let mainUser = await getMainUser();
+  let name = `${user.name}, ${mainUser.name}`;
+  let conversationId = uuidv1();
+  let createAt = new Date().getTime();
+  let conversation = {
     conversationId: conversationId,
     name: name,
     avatar: user.avatar,
     users: [user, mainUser],
     createAt: createAt,
-    messages:[]
+    // messages: [],
   };
   return await insertConversationDB(conversation);
 };
 
 export const getConversationById = async (conversationId) => {
-  const conversation = await getConversationByIdDB(conversationId);
+  let conversation = await getConversationByIdDB(conversationId);
   return conversation;
 };
 
 export const getConversationByUserId = async (userId) => {
-  const conversation = await getConversationByUserIdDB(userId);
+  let conversation = await getConversationByUserIdDB(userId);
   if (conversation.length > 0) return conversation[0];
   return null;
 };
 
-export const getConversations = async() => {
-  const conversations = await getAllConversationDB();
+export const getConversationsHaveMessage = async () => {
+  let conversations = await getAllConversationHaveMessageDB();
   return conversations;
-}
+};
 //conversation end
+
+export const deleteMessagesOfConversation = async (conversationId) => {
+  let conversation = await getConversationByIdDB(conversationId);
+  await deleteMultiMessageDB(conversation);
+};

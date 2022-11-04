@@ -3,7 +3,10 @@ import { Colors } from "../../../utils/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUrlImageByImageName } from "../../../firebase/firebase_storage";
-import { getListConversationAction } from "../../../actions/conversation_action";
+import {
+  getListConversationAction,
+  onDeleteConversationAction,
+} from "../../../actions/conversation_action";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { onTouchConversationAction } from "../../../actions/conversation_action";
 
@@ -29,6 +32,9 @@ const ListConversationComponent = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {
           dispatch(onTouchConversationAction(conversation, navigation));
+        }}
+        onLongPress={() => {
+          dispatch(onDeleteConversationAction(conversation));
         }}
       >
         <View style={{ flexDirection: "row" }}>
@@ -82,7 +88,7 @@ const ListConversationComponent = ({ navigation }) => {
   };
 
   const renderItem = ({ item }) => <ConversationItem conversation={item} />;
-  return (
+  return conversationsInfo?.conversations.length > 0 ? (
     <View>
       {/* <Text
           style={{
@@ -102,6 +108,8 @@ const ListConversationComponent = ({ navigation }) => {
         // keyExtractor={item => item.id}
       />
     </View>
+  ) : (
+    <View style={{flex:1}}/>
   );
 };
 

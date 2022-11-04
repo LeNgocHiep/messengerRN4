@@ -23,10 +23,10 @@ export const addUserFB = async (name, email, avatar, userId, createAt) => {
   }
 };
 
-export const getUserFB = async (uid) => {
+export const getUserFB = async (userId) => {
   try {
     const snapShoot = await Firebase.database()
-      .ref("users/" + uid)
+      .ref("users/" + userId)
       .once("value")
       .catch((error) => {
         console.log(error);

@@ -4,7 +4,15 @@ import { CONVERSATION } from "./conversation_schema";
 export const MESSAGE = "MESSAGE";
 
 export class Message {
-  constructor({ messageId, conversation, content, type, image, senderId, sendAt }) {
+  constructor({
+    messageId,
+    conversation,
+    content,
+    type,
+    image,
+    senderId,
+    sendAt,
+  }) {
     this.messageId = messageId;
     this.conversation = conversation;
     this.content = content;
@@ -21,7 +29,7 @@ export class Message {
       messageId: "string",
       conversation: {
         type: "linkingObjects",
-        objectType: CONVERSATION,
+        objectType: "CONVERSATION",
         property: "messages",
       },
       content: "string?",
@@ -47,9 +55,14 @@ export const getMessageByIdDB = async (messageId) => {
   return realm.objectForPrimaryKey(MESSAGE, messageId);
 };
 
-export const insertMessageDB = async (message) => {
+export const insertMessageDB = async (message, conversationId) => {
   const realm = await getRealm();
-  return realm.write(() => realm.create(MESSAGE, message));
+  return realm.write(() => {
+    const conversation = realm.objectForPrimaryKey(CONVERSATION,conversationId);
+    const messageResult = realm.create(MESSAGE, message);
+    conversation.messages.push(messageResult);
+    return messageResult;
+  });
 };
 
 export const updateMessageDB = async (messageId, newMessage) => {
@@ -76,4 +89,11 @@ export const deleteMessageDB = async (messageId) => {
 export const getAllMessageDB = async () => {
   const realm = await getRealm();
   return realm.objects(MESSAGE);
+};
+
+export const deleteMultiMessageDB = async (messagesDB) => {
+  const realm = await getRealm();
+  return realm.write(() => {
+    realm.delete(messagesDB);
+  });
 };

@@ -2,8 +2,9 @@ import * as ActionTypes from "../utils/action_type";
 import isLoading from "./loading_action";
 import {
   createConversation,
+  deleteMessagesOfConversation,
   getConversationByUserId,
-  getConversations,
+  getConversationsHaveMessage,
   getUserByIdApi,
 } from "../database/database_manager";
 import EncryptedStorage from "react-native-encrypted-storage";
@@ -12,7 +13,6 @@ import {
   onListenRealTimeConversationFB,
 } from "../firebase/firebase_conversation";
 import {
-  deleteAllConversationDB,
   insertConversationDB,
 } from "../database/conversation_schema";
 
@@ -26,11 +26,14 @@ const getConversation = (conversations) => {
 export const createConversationAction =
   (userId, navigation) => async (dispatch) => {
     dispatch(isLoading(true));
-    await deleteAllConversationDB();
     getConversationByUserId(userId).then(async (conversation) => {
       let mainUserId = await EncryptedStorage.getItem("UID");
       if (conversation === null) {
         createConversation(userId).then((conversation) => {
+          getConversationsHaveMessage().then((conversations) => {
+            if (conversations?.length > 0)
+              dispatch(getConversation(conversations));
+          });
           navigation.navigate("ChatScreen", {
             conversation: conversation,
             mainUserId: mainUserId,
@@ -52,34 +55,33 @@ export const createConversationAction =
           conversation: conversation,
           mainUserId: mainUserId,
         });
-        // dispatch(isLoading(false));
-        // const userIds = conversation.users.map(({user}) => user.userId);
-        // addConversationFB(
-        //   conversation.conversationId,
-        //   conversation.name,
-        //   conversation.avatar,
-        //   conversation.createAt,
-        //   userIds
-        // );
+        dispatch(isLoading(false));
+        const userIds = conversation.users.map(({user}) => user.userId);
+        addConversationFB(
+          conversation.conversationId,
+          conversation.name,
+          conversation.avatar,
+          conversation.createAt,
+          userIds,
+          mainUserId
+        );
       }
     });
   };
 
 export const getListConversationAction = () => async (dispatch) => {
-  getConversations().then((conversations) => {
+  getConversationsHaveMessage().then((conversations) => {
     if (conversations?.length > 0) dispatch(getConversation(conversations));
   });
 };
 
 export const onTouchConversationAction =
   (conversation, navigation) => async (dispatch) => {
-    dispatch(isLoading(true));
     let mainUserId = await EncryptedStorage.getItem("UID");
     navigation.navigate("ChatScreen", {
       conversation: conversation,
       mainUserId: mainUserId,
     });
-    dispatch(isLoading(false));
   };
 
 export const onListenConversationsAction = () => async (dispatch) => {
@@ -104,8 +106,19 @@ export const onListenConversationsAction = () => async (dispatch) => {
       messages: [],
     };
     await insertConversationDB(conversation);
-    getConversations().then((conversations) => {
+    getConversationsHaveMessage().then((conversations) => {
       if (conversations?.length > 0) dispatch(getConversation(conversations));
     });
   }, mainUserId);
 };
+export const onDeleteConversationAction =
+  (conversation) => async (dispatch) => {
+    try {
+      await deleteMessagesOfConversation(conversation.conversationId);
+    } catch (error) {
+      console.log(error);
+    }
+    getConversationsHaveMessage().then((conversations) => {
+      if (conversations?.length > 0) dispatch(getConversation(conversations));
+    });
+  };
