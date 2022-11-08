@@ -7,7 +7,7 @@ import {
   getConversationsHaveMessage,
   getUserByIdApi,
 } from "../database/database_manager";
-import EncryptedStorage from "react-native-encrypted-storage";
+import { AsyncStorage } from 'react-native';
 import {
   addConversationFB,
   onListenRealTimeConversationFB,
@@ -27,7 +27,7 @@ export const createConversationAction =
   (userId, navigation) => async (dispatch) => {
     dispatch(isLoading(true));
     getConversationByUserId(userId).then(async (conversation) => {
-      let mainUserId = await EncryptedStorage.getItem("UID");
+      let mainUserId = await AsyncStorage.getItem("UID");
       if (conversation === null) {
         createConversation(userId).then((conversation) => {
           getConversationsHaveMessage().then((conversations) => {
@@ -77,7 +77,7 @@ export const getListConversationAction = () => async (dispatch) => {
 
 export const onTouchConversationAction =
   (conversation, navigation) => async (dispatch) => {
-    let mainUserId = await EncryptedStorage.getItem("UID");
+    let mainUserId = await AsyncStorage.getItem("UID");
     navigation.navigate("ChatScreen", {
       conversation: conversation,
       mainUserId: mainUserId,
@@ -85,7 +85,7 @@ export const onTouchConversationAction =
   };
 
 export const onListenConversationsAction = () => async (dispatch) => {
-  let mainUserId = await EncryptedStorage.getItem("UID");
+  let mainUserId = await AsyncStorage.getItem("UID");
   onListenRealTimeConversationFB(async (data) => {
     // const newUsers = data.userIds.map(
     //   async (userId) => await getUserByIdApi(userId)

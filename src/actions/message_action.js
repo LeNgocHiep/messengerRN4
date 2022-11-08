@@ -14,6 +14,7 @@ import {
 } from "../firebase/firebase_message";
 import * as ActionTypes from "../utils/action_type";
 import isLoading from "./loading_action";
+import { getListConversationAction } from "./conversation_action";
 
 const getMessages = (messages) => {
   return {
@@ -38,7 +39,6 @@ export const createMessageAction =
     );
     let messages = await getAllMessageByConversationId(conversationId);
     if (messages?.length > 0) dispatch(getMessages(messages));
-
     dispatch(isLoading(false));
   };
 

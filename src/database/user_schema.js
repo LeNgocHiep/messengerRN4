@@ -25,20 +25,21 @@ export class User {
 }
 
 export const getUserByIdDB = async (userId) => {
-  const realm = await getRealm();
-  const user = realm.objectForPrimaryKey(USER, userId);
+  let realm = await getRealm();
+  let user = realm.objectForPrimaryKey(USER, userId);
   return user;
 };
 
 export const insertUserIfNeededDB = async (user) => {
-  const realm = await getRealm();
-  const constantUser = realm.objectForPrimaryKey(USER, user.userId);
+  let realm = await getRealm();
+  let constantUser = realm.objectForPrimaryKey(USER, user.userId);
   if (constantUser) return constantUser;
-  const resultUser = realm.write(() => realm.create(USER, user));
+  let resultUser = realm.write(() => realm.create(USER, user));
   return constantUser ?? resultUser;
 };
 
 export const getAllUserDB = async () => {
-  const realm = await getRealm();
-  return realm.objects(USER);
+  let realm = await getRealm();
+  let result = realm.objects(USER);
+  return result;
 };

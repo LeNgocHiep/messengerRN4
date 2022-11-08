@@ -33,18 +33,31 @@ export class Conversation {
 }
 
 export const getConversationByIdDB = async (conversationId) => {
-  const realm = await getRealm();
-  return realm.objectForPrimaryKey(CONVERSATION, conversationId);
+  try {
+    let realm = await getRealm();
+    let result = realm.objectForPrimaryKey(CONVERSATION, conversationId);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getConversationByUserIdDB = async (userId) => {
   try {
-    const realm = await getRealm();
-    const conversations = realm.objects(CONVERSATION);
-    const conversation = conversations.filtered(
-      `ANY users.userId == '${userId}'`
-    );
-    return conversation;
+    let realm = await getRealm();
+    let conversations = realm.objects(CONVERSATION);
+    // let conversation = conversations.filtered(
+    //   `ALL users.userId == '${userId}'`
+    // );
+    let conversationsResult = [];
+    conversations.forEach((conversation) => {
+      conversation.users.forEach((user) => {
+        if (user.userId == userId && conversation.users.length == 2) {
+          conversationsResult.push(conversation);
+        }
+      });
+    });
+    return conversationsResult;
   } catch (error) {
     console.log(error);
     return [];
@@ -52,14 +65,15 @@ export const getConversationByUserIdDB = async (userId) => {
 };
 
 export const insertConversationDB = async (conversation) => {
-  const realm = await getRealm();
-  return realm.write(() => realm.create(CONVERSATION, conversation));
+  let realm = await getRealm();
+  let result = realm.write(() => realm.create(CONVERSATION, conversation));
+  return result;
 };
 
 export const updateConversationDB = async (conversationId, newConversation) => {
-  const realm = await getRealm();
-  const conversation = realm.objectForPrimaryKey(CONVERSATION, conversationId);
-  return realm.write(() => {
+  let realm = await getRealm();
+  let conversation = realm.objectForPrimaryKey(CONVERSATION, conversationId);
+  let result = realm.write(() => {
     if (newConversation.name != null) conversation.name = newConversation.name;
     if (newConversation.avatar != null)
       conversation.avatar = newConversation.avatar;
@@ -68,11 +82,12 @@ export const updateConversationDB = async (conversationId, newConversation) => {
     if (newConversation.users != null)
       conversation.users = newConversation.users;
   });
+  return result;
 };
 
 export const deleteConversationDB = async (conversationId) => {
   try {
-    const realm = await getRealm();
+    let realm = await getRealm();
     let conversation = realm.objectForPrimaryKey(CONVERSATION, conversationId);
     return realm.write(() => {
       realm.delete(conversation);
@@ -84,27 +99,28 @@ export const deleteConversationDB = async (conversationId) => {
 };
 
 export const deleteAllConversationDB = async () => {
-  const realm = await getRealm();
+  let realm = await getRealm();
   realm.write(() => {
     realm.delete(realm.objects(CONVERSATION));
   });
 };
 
 export const getAllConversationDB = async () => {
-  const realm = await getRealm();
-  return realm.objects(CONVERSATION);
+  let realm = await getRealm();
+  let result = realm.objects(CONVERSATION);
+  return result;
 };
 
 export const getAllConversationHaveMessageDB = async () => {
-  const realm = await getRealm();
+  let realm = await getRealm();
   let conversations = realm.objects(CONVERSATION);
   // let conversationsHaveMessage = conversations.filtered(
   //   "ALL messages.messageId != ''"
   // );
 
   let conversationHaveMessage = [];
-  conversations.forEach((conversation)=>{
-    if(conversation.messages.length > 0){
+  conversations.forEach((conversation) => {
+    if (conversation.messages.length > 0) {
       conversationHaveMessage.push(conversation);
     }
   });

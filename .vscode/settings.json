@@ -1,6 +1,9 @@
 {
     "react-native.ios.runArguments.simulator": [
         "--simulator", "iPhone 14 Pro Max"
+    ],
+    "react-native.android.runArguments.device": [
+        "--device", "vsmart Joy 4"
     ]
     // "react-native.ios.runArguments.device": [
     //     "--device", "iPhone"

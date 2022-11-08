@@ -5,7 +5,7 @@ import {
   insertUserIfNeededDB,
   User,
 } from "../database/user_schema";
-import EncryptedStorage from "react-native-encrypted-storage";
+import { AsyncStorage } from 'react-native';
 import { getUserFB } from "../firebase/firebase_user";
 import "react-native-get-random-values";
 import { v1 as uuidv1 } from "uuid";
@@ -28,8 +28,13 @@ const databaseConfig = {
   schema: [User.schema, Conversation.schema, Message.schema],
 };
 
+let realm;
+
 export const getRealm = async () => {
-  return await Realm.open(databaseConfig);
+  if (!realm) {
+    realm = await Realm.open(databaseConfig);
+  }
+  return realm;
 };
 
 //user start
@@ -39,7 +44,7 @@ export const getListUser = async () => {
 };
 
 export const getMainUser = async () => {
-  const userId = await EncryptedStorage.getItem("UID");
+  const userId = await AsyncStorage.getItem("UID");
   const user = await getUserByIdDB(userId);
   return user;
 };

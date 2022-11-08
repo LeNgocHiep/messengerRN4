@@ -22,7 +22,10 @@ const ListConversationComponent = ({ navigation }) => {
 
   const ConversationItem = ({ conversation }) => {
     const [avatar, setAvatar] = useState();
-
+    let messages = conversation?.messages;
+    let lastMessage = messages[messages.length - 1];
+    let date = new Date(lastMessage?.sentAt);
+    let time = `${date.getHours()}:${date.getMinutes()}`;
     useEffect(() => {
       getUrlImageByImageName(conversation?.avatar).then((url) => {
         setAvatar(url);
@@ -68,7 +71,7 @@ const ListConversationComponent = ({ navigation }) => {
                 fontWeight: "300",
               }}
             >
-              {conversation?.content}
+              {lastMessage?.content ?? ""}
             </Text>
           </View>
           <View style={{ justifyContent: "center" }}>
@@ -79,7 +82,7 @@ const ListConversationComponent = ({ navigation }) => {
                 fontWeight: "600",
               }}
             >
-              {"08:43"}
+              {`${date.toDateString("vi-VN")}\n${date.toLocaleTimeString()}`}
             </Text>
           </View>
         </View>
@@ -109,7 +112,7 @@ const ListConversationComponent = ({ navigation }) => {
       />
     </View>
   ) : (
-    <View style={{flex:1}}/>
+    <View style={{ flex: 1 }} />
   );
 };
 

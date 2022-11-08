@@ -3,7 +3,7 @@ import * as ActionTypes from "../utils/action_type";
 import SignUpUserFB from "../firebase/firebase_sign_up";
 import Firebase from "../firebase/firebase_config";
 import { addUserFB, avatarDefault } from "../firebase/firebase_user";
-import EncryptedStorage from "react-native-encrypted-storage";
+import { AsyncStorage } from 'react-native';
 import { Alert } from "react-native";
 import { insertUserIfNeededDB, User } from "../database/user_schema";
 import isLoading from "./loading_action";
@@ -49,7 +49,7 @@ export const signUp =
               createAt: createAt,
             });
             const userResult = await insertUserIfNeededDB(user);
-            await EncryptedStorage.setItem("UID", uid);
+            await AsyncStorage.setItem("UID", uid);
             dispatch(isLoading(false));
             showAlert();
             // await delay(500);
@@ -68,7 +68,7 @@ export const signUp =
   };
 
 export const logout = () => {
-  EncryptedStorage.removeItem("UID");
+  AsyncStorage.removeItem("UID");
   // Actions.Login();
   return {
     type: ActionTypes.LOGOUT,

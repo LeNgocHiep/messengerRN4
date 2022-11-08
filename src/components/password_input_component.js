@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   TextInput,
@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-import {Colors} from "../utils/colors";
+import { Colors } from "../utils/colors";
 
-const PasswordInputComponent = ({ updateFields }) => {
+const PasswordInputComponent = ({ initPassword, updateFields }) => {
   const [isFocus, setFocus] = useState(false);
   const [pass, setPass] = useState("");
   const [isShow, setShow] = useState(false);
@@ -17,6 +17,10 @@ const PasswordInputComponent = ({ updateFields }) => {
   const getColor = (isFocus) => {
     return isFocus ? Colors.backgroundDark : Colors.hintText;
   };
+
+  useEffect(() => {
+    setPass(initPassword);
+  }, [initPassword]);
 
   return (
     <View
@@ -34,6 +38,7 @@ const PasswordInputComponent = ({ updateFields }) => {
         color={getColor(isFocus)}
       />
       <TextInput
+        value={pass}
         onFocus={() => {
           setFocus(true);
         }}
@@ -48,7 +53,7 @@ const PasswordInputComponent = ({ updateFields }) => {
         placeholder={"Password"}
         placeholderTextColor={Colors.hintText}
         onChangeText={(text) => {
-          setPass(text);
+          if (text != pass) setPass(text);
           updateFields(text);
         }}
         spellCheck={false}

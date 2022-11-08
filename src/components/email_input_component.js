@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-import {Colors} from "../utils/colors";
+import { Colors } from "../utils/colors";
 
-const EmailInputComponent = ({ updateFields }) => {
+const EmailInputComponent = ({ initEmail, updateFields }) => {
   const [isFocus, setFocus] = useState(0);
   const [email, setEmail] = useState("");
   const validate = (text) => {
@@ -23,8 +23,15 @@ const EmailInputComponent = ({ updateFields }) => {
   };
 
   const getColor = (isFocus) => {
-    return isFocus == 1 ? Colors.backgroundDark : isFocus == -1 ? Colors.red : Colors.hintText;
+    return isFocus == 1
+      ? Colors.backgroundDark
+      : isFocus == -1
+      ? Colors.red
+      : Colors.hintText;
   };
+  useEffect(() => {
+    setEmail(initEmail);
+  }, [initEmail]);
 
   return (
     <View
@@ -42,6 +49,7 @@ const EmailInputComponent = ({ updateFields }) => {
         color={getColor(isFocus)}
       />
       <TextInput
+        value={email}
         onFocus={() => {
           validate(email);
         }}
@@ -56,7 +64,7 @@ const EmailInputComponent = ({ updateFields }) => {
         placeholder={"example@email.com"}
         placeholderTextColor={Colors.hintText}
         onChangeText={(text) => {
-          validate(text);
+          if (text != email) validate(text);
         }}
         spellCheck={false}
         autoCorrect={false}

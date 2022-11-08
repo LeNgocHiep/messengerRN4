@@ -43,31 +43,36 @@ export class Message {
 }
 
 export const updateReadAtDB = async (messageId, dateTime) => {
-  const realm = await getRealm();
-  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
-  return realm.write(() => {
+  let realm = await getRealm();
+  let message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  let result = realm.write(() => {
     message.readAt = dateTime;
   });
+  return result;
 };
 
 export const getMessageByIdDB = async (messageId) => {
-  const realm = await getRealm();
-  return realm.objectForPrimaryKey(MESSAGE, messageId);
+  let realm = await getRealm();
+  let result = realm.objectForPrimaryKey(MESSAGE, messageId);
+  return result;
 };
 
 export const insertMessageDB = async (message, conversationId) => {
-  const realm = await getRealm();
+  let realm = await getRealm();
+  let conversation = realm.objectForPrimaryKey(
+    CONVERSATION,
+    conversationId
+  );
   return realm.write(() => {
-    const conversation = realm.objectForPrimaryKey(CONVERSATION,conversationId);
-    const messageResult = realm.create(MESSAGE, message);
+    let messageResult = realm.create(MESSAGE, message);
     conversation.messages.push(messageResult);
     return messageResult;
   });
 };
 
 export const updateMessageDB = async (messageId, newMessage) => {
-  const realm = await getRealm();
-  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  let realm = await getRealm();
+  let message = realm.objectForPrimaryKey(MESSAGE, messageId);
   return realm.write(() => {
     if (newMessage.content != null) message.content = newMessage.content;
     if (newMessage.type != null) message.type = newMessage.type;
@@ -78,8 +83,8 @@ export const updateMessageDB = async (messageId, newMessage) => {
 };
 
 export const deleteMessageDB = async (messageId) => {
-  const realm = await getRealm();
-  const message = realm.objectForPrimaryKey(MESSAGE, messageId);
+  let realm = await getRealm();
+  let message = realm.objectForPrimaryKey(MESSAGE, messageId);
   return realm.write(() => {
     realm.delete(message);
     message = null;
@@ -87,12 +92,12 @@ export const deleteMessageDB = async (messageId) => {
 };
 
 export const getAllMessageDB = async () => {
-  const realm = await getRealm();
+  let realm = await getRealm();
   return realm.objects(MESSAGE);
 };
 
 export const deleteMultiMessageDB = async (messagesDB) => {
-  const realm = await getRealm();
+  let realm = await getRealm();
   return realm.write(() => {
     realm.delete(messagesDB);
   });

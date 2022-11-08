@@ -1,95 +1,50 @@
 {
   "project_info": {
-    "project_number": "446155438040",
-    "firebase_url": "https://messengerrn-80d51-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "messengerrn-80d51",
-    "storage_bucket": "messengerrn-80d51.appspot.com"
+    "project_number": "870070164651",
+    "firebase_url": "https://reactchat-c593a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "reactchat-c593a",
+    "storage_bucket": "reactchat-c593a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:446155438040:android:a01d7655da85a381f9a4ad",
+        "mobilesdk_app_id": "1:870070164651:android:24d77090e3c0397ad0ebee",
         "android_client_info": {
-          "package_name": "com.messenger4"
+          "package_name": "com.messengerrn4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "446155438040-m4f15pinjc6mp2s5jubhs47qpe0kkluv.apps.googleusercontent.com",
+          "client_id": "870070164651-dnlb9hansbl90lls4fn9dkqm3pe4kq3c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.messenger4",
+            "package_name": "com.messengerrn4",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "446155438040-pg8hgvbsvjbr1o4i107o96ft8s9lbtov.apps.googleusercontent.com",
+          "client_id": "870070164651-n977291r2feg5oscdgb2t992qp67s3t3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyApB6rh9PByKb4RavegCOt0prc8ZbpCyiw"
+          "current_key": "AIzaSyBpXfF-d4Abg8SDNNPBTQKHzpOHHLzSX5M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "446155438040-pg8hgvbsvjbr1o4i107o96ft8s9lbtov.apps.googleusercontent.com",
+              "client_id": "870070164651-n977291r2feg5oscdgb2t992qp67s3t3.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "446155438040-ulofie29r2vloe3u607hq0ptv83rjs9b.apps.googleusercontent.com",
+              "client_id": "870070164651-iin5i2o3nabel3edbjol2iqu0ldijdo2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.messengerrn",
-                "app_store_id": "123456789"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:446155438040:android:a1acdcfb905c80cef9a4ad",
-        "android_client_info": {
-          "package_name": "com.messengerrn"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "446155438040-72es3osrirh7rrpulnofclo3k1a7577p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.messengerrn",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "446155438040-pg8hgvbsvjbr1o4i107o96ft8s9lbtov.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyApB6rh9PByKb4RavegCOt0prc8ZbpCyiw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "446155438040-pg8hgvbsvjbr1o4i107o96ft8s9lbtov.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "446155438040-ulofie29r2vloe3u607hq0ptv83rjs9b.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.messengerrn",
-                "app_store_id": "123456789"
+                "bundle_id": "com.messengerrn4",
+                "app_store_id": "12345678"
               }
             }
           ]

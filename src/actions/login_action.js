@@ -1,7 +1,7 @@
 import * as ActionTypes from "../utils/action_type";
 import { loginUserFB } from "../firebase/firebase_login_user";
 import Firebase from "../firebase/firebase_config";
-import EncryptedStorage from "react-native-encrypted-storage";
+import {AsyncStorage} from "react-native";
 import { getUserFB } from "../firebase/firebase_user";
 import { insertUserIfNeededDB, User } from "../database/user_schema";
 import isLoading from "./loading_action";
@@ -50,7 +50,7 @@ export const login = (username, password, navigation) => async (dispatch) => {
           createAt: user.createAt
         })
       );
-      await EncryptedStorage.setItem("UID", uid);
+      await AsyncStorage.setItem("UID", uid);
       dispatch(isLoading(false));
       navigation.replace("HomeScreen");
     })

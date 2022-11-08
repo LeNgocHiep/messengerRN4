@@ -9,6 +9,7 @@ import { Colors } from "../utils/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { login } from "../actions/login_action";
 import { useDispatch, useSelector } from "react-redux";
+import { AsyncStorage } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
   var height = Dimensions.get("window").height;
@@ -18,9 +19,18 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   console.log(loginInfo);
-  // });
+  useEffect(() => {
+    AsyncStorage.getItem("email").then((email) => {
+      if (email != null) {
+        setEmail(email);
+      }
+    });
+    AsyncStorage.getItem("password").then((password) => {
+      if (password != null) {
+        setPassword(password);
+      }
+    });
+  }, []);
 
   return (
     <KeyboardAwareScrollView>
@@ -46,11 +56,13 @@ const LoginScreen = ({ navigation }) => {
           }}
         >
           <EmailInputComponent
+            initEmail={email}
             updateFields={(text) => {
               setEmail(text);
             }}
           />
           <PasswordInputComponent
+            initPassword={password}
             updateFields={(text) => {
               setPassword(text);
             }}
@@ -74,7 +86,9 @@ const LoginScreen = ({ navigation }) => {
             }}
             text="Log in"
             onPress={
-              () => {
+              async () => {
+                await AsyncStorage.setItem("email", email);
+                await AsyncStorage.setItem("password", password);
                 // navigation.navigate("HomeScreen");
                 dispatch(login(email, password, navigation));
               }
